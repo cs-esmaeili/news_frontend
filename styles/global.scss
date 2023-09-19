@@ -1,0 +1,10 @@
+@import '~bootstrap/scss/bootstrap';
+@import 'variables.scss';
+
+body {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    background-color: $background_color;
+    margin: 0;
+    padding: 0;
+  }
