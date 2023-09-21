@@ -1,6 +1,43 @@
+@import 'variables.scss';
+
 .container {
     height: 100vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+}
+
+.floatInput {
+    border-radius: 30px;
+    background-color: #33363f !important;
+    color: white;
+}
+
+.floatInput:focus {
+    color: white;
+}
+
+.floatLabel {
+    color: white;
+    margin-bottom: 15px;
+
+    ::after {
+        background-color: #33363f !important;
+    }
+
+    label {
+        color: white !important;
+    }
+}
+
+.button {
+    width: 100%;
+    border-radius: 30px;
+    background-color: #33363f;
+    color: yellow;
+}
+
+.error {
+    color: red;
+    text-align: center;
 }
