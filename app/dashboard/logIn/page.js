@@ -1,19 +1,42 @@
 'use client'
-import { FloatingLabel, Container, Row, Col, Button, Form as bootstrapForm } from 'react-bootstrap';
+import { FloatingLabel, Container, Row, Col, Alert, Button, Form as bootstrapForm } from 'react-bootstrap';
 import styles from '@/styles/logIn.module.scss';
+import { logIn } from '@/services/Authorization';
 import { logInSchema } from '@/validations/logIn';
-import { useFormik, Formik, Field } from 'formik';
+import { useFormik } from 'formik';
 import Image from 'next/image'
 import { useState } from 'react';
+import { setCookie } from 'cookies-next';
+import axios from "axios";
+
 export const Home = () => {
 
-  const [show, setShow] = useState(false);
-  const [update, setUpdate] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+  const [show, setShow] = useState(null);
 
   const handelSubmit = async ({ userName, passWord }) => {
-    console.log(userName, passWord);
+    setShow("");
+    setLoading(true);
+    try {
+      const { data } = await logIn({ userName, passWord });
+      const token = data.token;
+      var d = new Date();
+      d.setTime(d.getTime() + (30 * 60 * 1000));
+      setCookie('token', token, { expires: d });
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      console.log("log In Shod");
+      router.push('/dashboard');
+    } catch (error) {
+      if (error.hasOwnProperty('response')) {
+        setShow(error.response.data.message);
+      } else {
+        console.log(error);
+        setShow('Something is wrong!');
+      }
+    } finally {
+      setLoading(false);
+    }
   };
-
   const formik = useFormik({
     initialValues: {
       userName: '',
@@ -46,10 +69,12 @@ export const Home = () => {
                 onChange={(e) => {
                   formik.handleChange(e);
                   formik.setFieldError('userName', '');
+                  setShow(null);
                 }}
                 onBlur={(e) => {
                   formik.handleBlur(e);
                   formik.setFieldError('userName', '');
+                  setShow(null);
                 }}
                 value={formik.values.userName}
               />
@@ -57,28 +82,40 @@ export const Home = () => {
             </FloatingLabel>
             <FloatingLabel
               controlId="floatingInput"
-              label="passWord"
+              label="Password"
               className={styles.floatLabel}
             >
               <bootstrapForm.Control className={styles.floatInput} name="passWord" placeholder=""
                 onChange={(e) => {
                   formik.handleChange(e);
                   formik.setFieldError('passWord', '');
+                  setShow(null);
                 }}
                 onBlur={(e) => {
                   formik.handleBlur(e);
                   formik.setFieldError('passWord', '');
+                  setShow(null);
                 }}
                 value={formik.values.passWord}
               />
               {formik.errors.passWord && formik.touched.passWord ? <div className={styles.error} >{formik.errors.passWord}</div> : null}
             </FloatingLabel>
-            <Button type="submit">Submit</Button>
+            {show ?
+              <Alert key="danger" variant="danger">
+                <div className={styles.finalError}>{show}</div>
+              </Alert>
+              : null}
+            <Button
+              type="submit"
+              variant='outline-warning'
+              className={styles.button}
+              disabled={isLoading}>
+              {isLoading ? "Loading...." : "Enter"}
+            </Button>
           </form>
         </Col>
       </Row>
     </Container>
   )
 }
-
 export default Home;
