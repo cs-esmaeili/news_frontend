@@ -1,8 +1,8 @@
 {
     "app_name": "Emeral",
-    "base_url": "http://localhost:3000/",
     "api_admin": "http://localhost:3000/admin/",
     "api_user": "http://localhost:3000/user/",
-    "site_url": "http://localhost/shop/site/",
+    "site_url": "http://localhost:3001/site/",
+    "dashboard_url": "http://localhost:3001/dashboard/",
     "logo_url": "http://localhost/shop/system/logo.png"
 }

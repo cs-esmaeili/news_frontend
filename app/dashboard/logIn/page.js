@@ -1,16 +1,19 @@
 'use client'
 import { FloatingLabel, Container, Row, Col, Alert, Button, Form as bootstrapForm } from 'react-bootstrap';
-import styles from '@/styles/logIn.module.scss';
-import { logIn } from '@/services/Authorization';
+import { useState, useEffect } from 'react';
+import { setCookie, getCookie } from 'cookies-next';
 import { logInSchema } from '@/validations/logIn';
+import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik';
-import Image from 'next/image'
-import { useState } from 'react';
-import { setCookie } from 'cookies-next';
+import { logIn } from '@/services/Authorization';
+import styles from '@/styles/logIn.module.scss';
+import config from '@/config.json';
 import axios from "axios";
+import Image from 'next/image';
 
 export const Home = () => {
 
+  const router = useRouter();
   const [isLoading, setLoading] = useState(false);
   const [show, setShow] = useState(null);
 
@@ -24,13 +27,12 @@ export const Home = () => {
       d.setTime(d.getTime() + (30 * 60 * 1000));
       setCookie('token', token, { expires: d });
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      console.log("log In Shod");
-      router.push('/dashboard');
+      router.replace(config.dashboard_url);
     } catch (error) {
-      if (error.hasOwnProperty('response')) {
+      console.log(error);
+      if (error?.response?.data?.message) {
         setShow(error.response.data.message);
       } else {
-        console.log(error);
         setShow('Something is wrong!');
       }
     } finally {
@@ -47,6 +49,13 @@ export const Home = () => {
     validationSchema: logInSchema,
     onSubmit: values => handelSubmit(values),
   });
+
+  useEffect(() => {
+    const token = getCookie('token');
+    if (token) {
+      router.replace(config.dashboard_url);
+    }
+  }, []);
 
   return (
     <Container fluid className={styles.container}>
