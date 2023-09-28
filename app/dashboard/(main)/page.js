@@ -1,19 +1,13 @@
 'use client'
-import {Sidebar, Menu, MenuItem, SubMenu} from 'react-pro-sidebar';
+import Sidebar from '@/components/Sidebar';
 
 export default function Home() {
     return (
-        <main>
-            <Sidebar>
-                <Menu>
-                    <SubMenu label="Charts">
-                        <MenuItem> Pie charts </MenuItem>
-                        <MenuItem> Line charts </MenuItem>
-                    </SubMenu>
-                    <MenuItem> Documentation </MenuItem>
-                    <MenuItem> Calendar </MenuItem>
-                </Menu>
-            </Sidebar>;
-        </main>
+        <div style={{ background: "#22252D" }} className='d-flex flex-row vh-100'>
+            <Sidebar  />
+            <div style={{ background: 'green' }} className='flex-grow-1'>
+                Content
+            </div>
+        </div >
     )
 }

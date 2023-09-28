@@ -1,0 +1,104 @@
+@import 'variables.scss';
+
+.sidebarwrapper {
+  position: relative;
+}
+
+.sidebar {
+  width: 17rem;
+  height: 100%;
+  padding: 1rem;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+  overflow: hidden;
+}
+
+.sidebartop {
+  width: max-content;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+
+  border-bottom: 1px solid white;
+}
+
+.sidebarlogo {
+  width: 3.5rem;
+  height: 3.5rem;
+  object-fit: contain;
+  border-radius: 1rem;
+}
+
+.sidebarlogoname {
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.btn {
+  position: absolute;
+  right: 0;
+  top: 4.7rem;
+  border: none;
+  background-color: white;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 1px solid black;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transform: translateX(50%);
+  font-size: 1.1rem;
+}
+
+
+.sidebarlist {
+  list-style: none;
+}
+
+.sidebarlink {
+  display: inline-block;
+  font-size: 1rem;
+  text-decoration: none;
+  color: #8C8C7F;
+  padding: 0.8rem 1rem;
+  display: flex;
+  background-color: #3A3F51;
+  margin-bottom: 1rem;
+  border-radius: 0.8rem;
+  // align-items: center;
+  flex-direction: column;
+
+}
+
+.siderbarLinkActive {
+  border-left: 5px solid #D1C026;
+}
+
+.sidebaricon {
+  display: inline-block;
+  font-size: 1.2rem;
+}
+
+.sidebarname {
+  margin-left: 0.5rem;
+}
+
+.sidebarNameIcon {
+  flex-direction: row;
+}
+
+.panel {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+  opacity: 0;
+}
+
+.listgroupitem {
+  background-color: transparent;
+  border: none;
+}
