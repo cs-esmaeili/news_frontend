@@ -66,7 +66,7 @@
   color: #8C8C7F;
   padding: 0.8rem 1rem;
   display: flex;
-  background-color: #3A3F51;
+  background-color: #253d91;
   margin-bottom: 1rem;
   border-radius: 0.8rem;
   // align-items: center;
@@ -91,12 +91,32 @@
   flex-direction: row;
 }
 
-.panel {
+.accordion-header {
+  max-height: 0;
   padding: 0 18px;
   display: none;
   overflow: hidden;
   opacity: 0;
+
+  transition: background-color 0.3s;
+
+  &.active {
+    background-color: #d62f2f;
+  }
+
 }
+
+.accordioncontent {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s;
+
+  &.open {
+    max-height: 500px;
+    /* Adjust the value to fit your content */
+  }
+}
+
 
 .listgroupitem {
   background-color: transparent;

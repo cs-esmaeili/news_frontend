@@ -9,15 +9,12 @@ import { useSpring, animated } from 'react-spring';
 
 const Sidebar = () => {
 
-  const [expanded, setExpanded] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(null);
 
 
-  const panelAnimation = useSpring({
-    maxHeight: expanded ? '1000px' : '0px',
-    opacity: expanded ? 1 : 0,
-    overflow: 'hidden',
-    transition: `max-height ${expanded ? '500ms' : '50ms'}, opacity 10ms`,
-  });
+  const handleClick = (index) => {
+    setActiveIndex(index === activeIndex ? null : index);
+  };
 
   return (
     <div className={styles.sidebarwrapper}>
@@ -34,11 +31,9 @@ const Sidebar = () => {
           </p>
         </div>
         <ul className={styles.sidebarlist}>
-          <li onClick={() => setExpanded(!expanded)}>
-            <div
-              className={styles.sidebarlink}
-              href={"w"}
-            >
+
+          <li onClick={() => {handleClick(1); console.log(activeIndex);}}>
+            <div className={styles.sidebarlink}>
               <div className={styles.sidebarNameIcon}>
                 <span className={styles.sidebaricon}>
                   <FiMail />
@@ -47,22 +42,17 @@ const Sidebar = () => {
                   Home
                 </span>
               </div>
-              <animated.div style={panelAnimation}>
-                <div>
-                  <ListGroup as="ol" numbered>
-                    <ListGroup.Item className={styles.listgroupitem} as="li" onClick={() => console.log("dwaw")}>Cras justo odio</ListGroup.Item>
-                    <ListGroup.Item className={styles.listgroupitem} as="li">Cras justo odio</ListGroup.Item>
-                    <ListGroup.Item className={styles.listgroupitem} as="li">Cras justo odio</ListGroup.Item>
-                  </ListGroup>
-                </div>
-              </animated.div>
+              <div className={`${styles.accordioncontent} ${activeIndex === 1 ? styles.open : ''}`} >
+                <ListGroup as="ol" numbered>
+                  <ListGroup.Item className={styles.listgroupitem} as="li">Cras justo odio</ListGroup.Item>
+                  <ListGroup.Item className={styles.listgroupitem} as="li">Cras justo odio</ListGroup.Item>
+                  <ListGroup.Item className={styles.listgroupitem} as="li">Cras justo odio</ListGroup.Item>
+                </ListGroup>
+              </div>
             </div>
           </li>
-          <li onClick={() => setExpanded(!expanded)}>
-            <div
-              className={styles.sidebarlink}
-              href={"w"}
-            >
+          <li onClick={() => {handleClick(2); console.log(activeIndex);}}>
+            <div className={styles.sidebarlink}>
               <div className={styles.sidebarNameIcon}>
                 <span className={styles.sidebaricon}>
                   <FiMail />
@@ -71,13 +61,17 @@ const Sidebar = () => {
                   Home
                 </span>
               </div>
-              <animated.div style={panelAnimation}>
-                <div>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                </div>
-              </animated.div>
+              <div className={`${styles.accordioncontent} ${activeIndex === 2 ? styles.open : ''}`} >
+                <ListGroup as="ol" numbered>
+                  <ListGroup.Item className={styles.listgroupitem} as="li">Cras justo odio</ListGroup.Item>
+                  <ListGroup.Item className={styles.listgroupitem} as="li">Cras justo odio</ListGroup.Item>
+                  <ListGroup.Item className={styles.listgroupitem} as="li">Cras justo odio</ListGroup.Item>
+                </ListGroup>
+              </div>
             </div>
           </li>
+
+
         </ul>
       </div>
     </div >
