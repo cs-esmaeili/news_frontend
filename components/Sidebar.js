@@ -9,6 +9,7 @@ import { FiMail } from "react-icons/fi";
 const Sidebar = () => {
 
   const [activeIndex, setActiveIndex] = useState(null);
+  const [toggleSidebar, setToggleSidebar] = useState(true);
 
 
   const handleClick = (index) => {
@@ -16,11 +17,20 @@ const Sidebar = () => {
   };
 
   return (
-    <div className={styles.sidebarwrapper}>
-      <button className={styles.btn}>
+    <div className={styles.sidebarwrapper} data-collapse={toggleSidebar}>
+
+      <button className={styles.btn}
+        onClick={() => {
+          if (!toggleSidebar == false) {
+            setActiveIndex(null);
+          }
+          setToggleSidebar(!toggleSidebar);
+
+        }}>
         <MdKeyboardArrowRight />
       </button>
-      <div className={styles.sidebar} >
+
+      <div className={`${styles.sidebar}  ${toggleSidebar ? styles.open : ''}`} >
         <div className={styles.sidebartop}>
           <Image className={styles.sidebarlogo} src="/logo.png" alt="Picture of the author"
             width={400}
@@ -31,7 +41,7 @@ const Sidebar = () => {
         </div>
         <ul className={styles.sidebarlist}>
 
-          <li onClick={() => {handleClick(1); console.log(activeIndex);}}>
+          <li onClick={() => { handleClick(1); setToggleSidebar(true); }}>
             <div className={styles.sidebarlink}>
               <div className={styles.sidebarNameIcon}>
                 <span className={styles.sidebaricon}>
@@ -50,7 +60,7 @@ const Sidebar = () => {
               </div>
             </div>
           </li>
-          <li onClick={() => {handleClick(2); console.log(activeIndex);}}>
+          <li onClick={() => { handleClick(2); setToggleSidebar(true); }}>
             <div className={styles.sidebarlink}>
               <div className={styles.sidebarNameIcon}>
                 <span className={styles.sidebaricon}>

@@ -1,5 +1,16 @@
 @import 'variables.scss';
 
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 .sidebarwrapper {
   position: relative;
 }
@@ -11,6 +22,21 @@
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
   overflow: hidden;
 }
+
+.sidebarwrapper[data-collapse=false] {
+  .sidebar {
+    width: 5.3rem;
+  }
+
+  .sidebarlogoname {
+    display: none;
+  }
+
+  .sidebarname {
+    display: none;
+  }
+}
+
 
 .sidebartop {
   width: max-content;
@@ -34,7 +60,13 @@
   color: white;
   font-size: 1.2rem;
   font-weight: 600;
+
+  opacity: 0;
+  animation-name: fade-in;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
 }
+
 
 .btn {
   position: absolute;
@@ -69,7 +101,6 @@
   background-color: #253d91;
   margin-bottom: 1rem;
   border-radius: 0.8rem;
-  // align-items: center;
   flex-direction: column;
 
 }
@@ -85,6 +116,11 @@
 
 .sidebarname {
   margin-left: 0.5rem;
+
+  opacity: 0;
+  animation-name: fade-in;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
 }
 
 .sidebarNameIcon {
@@ -113,7 +149,6 @@
 
   &.open {
     max-height: 500px;
-    /* Adjust the value to fit your content */
   }
 }
 

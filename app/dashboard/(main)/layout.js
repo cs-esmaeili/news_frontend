@@ -10,7 +10,7 @@ export default function RootLayout({ children }) {
         <div style={{ background: "#22252D" }} className='d-flex flex-row vh-100'>
           <Sidebar />
           <div style={{ background: '#2E3139'}} className='flex-grow-1'>
-            <div style={{ height: "100px", backgroundColor: "red" }}>
+            <div style={{ height: "50px", backgroundColor: "red" }}>
               header
             </div>
             {children}
