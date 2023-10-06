@@ -61,9 +61,9 @@ export const Home = () => {
     <Container fluid className={styles.container}>
       <Row>
         <Image src="/logo.png" alt="Picture of the author"
-          className='align-self-center'
-          width={400}
-          height={400} />
+          className={styles.image}
+          width={200}
+          height={200} />
       </Row>
       <Row style={{ width: '100%' }} className='justify-content-center'>
         <Col xxl={3} xl={4} lg={5} sm={8} className='d-flex flex-column'>

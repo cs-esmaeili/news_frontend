@@ -5,7 +5,6 @@ import { ListGroup } from 'react-bootstrap';
 import Image from 'next/image';
 import Link from "next/link";
 import { FiMail } from "react-icons/fi";
-import { useSpring, animated } from 'react-spring';
 
 const Sidebar = () => {
 
