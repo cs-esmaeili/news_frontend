@@ -1,0 +1,18 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.header {
+  height: 50px;
+}
+
+
+.content {
+  display: flex;
+  height: calc(100% - 50px);
+  flex-direction: column;
+  overflow: auto;
+  padding-left: 5px;
+}

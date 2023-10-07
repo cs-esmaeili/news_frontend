@@ -1,0 +1,28 @@
+.container {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin-top: 0px;
+  padding: 0px;
+}
+
+.header {
+  height: 50px;
+  padding: 10px;
+}
+
+.content {
+  flex-grow: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 10px;
+}
+
+.file {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+}

@@ -2,18 +2,21 @@
 
 import '@/styles/global.scss';
 import Sidebar from '@/components/Sidebar';
+import styles from '@/styles/header.module.scss';
 
-export default function RootLayout({ children }) {
+export default function Layout({ children }) {
   return (
     <html lang="en">
       <body>
-        <div style={{ background: "#22252D" }} className='d-flex flex-row vh-100'>
+        <div className='d-flex flex-row vh-100'>
           <Sidebar />
-          <div style={{ background: '#2E3139'}} className='flex-grow-1'>
-            <div style={{ height: "50px", backgroundColor: "red" }}>
+          <div className={styles.container}>
+            <div className={styles.header}>
               header
             </div>
-            {children}
+            <div className={styles.content}>
+              {children}
+            </div>
           </div>
         </div >
       </body>

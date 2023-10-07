@@ -11,7 +11,7 @@
 body {
   font-family: Arial, sans-serif;
   font-size: 16px;
-  background-color: $background_color;
+  background-color: $background_color !important;
   margin: 0;
   padding: 0;
 }
@@ -21,4 +21,25 @@ p {
 }
 ul {
   padding: 0;
+}
+
+/* Styles for the scrollbar track */
+::-webkit-scrollbar {
+  width: 10px; /* Width of the scrollbar */
+}
+
+/* Styles for the scrollbar thumb */
+::-webkit-scrollbar-thumb {
+  background-color: #888; /* Color of the scrollbar thumb */
+  border-radius: 5px; /* Border radius of the scrollbar thumb */
+}
+
+/* Styles for the scrollbar thumb on hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* Color of the scrollbar thumb on hover */
+}
+
+/* Styles for the scrollbar track when scrollbar is being dragged */
+::-webkit-scrollbar-thumb:active {
+  background-color: #333; /* Color of the scrollbar thumb when being dragged */
 }
