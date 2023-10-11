@@ -1,6 +1,16 @@
 'use client'
-import { Container, Row, Col, Form, Spinner } from 'react-bootstrap';
-import { AiOutlineFile, AiOutlineFileImage, AiOutlineFolder } from "react-icons/ai";
+import { Container, Row, Col, Form, Spinner, Button } from 'react-bootstrap';
+import {
+    AiOutlineFile,
+    AiOutlineFileImage,
+    AiOutlineFolder,
+    AiOutlineArrowLeft,
+    AiOutlineArrowRight,
+    AiOutlineDelete,
+    AiOutlineUpload,
+    AiFillFolderAdd,
+    AiOutlineEdit,
+} from "react-icons/ai";
 import styles from '@/styles/filemanager.module.scss';
 import { useState, useEffect } from 'react';
 import { folderFileList as RfolderFileList } from '@/services/Filemanager';
@@ -67,18 +77,51 @@ export default function Home() {
     return (
         <Container className={styles.container} fluid >
             <div className={styles.header}>
+                <div>
+                    <Button variant="outline-light" style={{ marginBottom: "7px" }} onClick={() => {
+                        setPath(prevItems => prevItems.slice(0, -1));
+                    }}>
+                        <AiOutlineArrowLeft size={"1.3rem"} />
+                        <span style={{ marginLeft: "10px" }}>
+                            Back
+                        </span>
+                    </Button>
+                    <Button variant="outline-danger" style={{ marginLeft: "10px", marginBottom: "7px" }}>
+                        <AiOutlineDelete size={"1.3rem"} />
+                        <span style={{ marginLeft: "10px" }}>
+                            Delete
+                        </span>
+                    </Button>
+                    <Button variant="outline-success" style={{ marginLeft: "10px", marginBottom: "7px" }}>
+                        <AiOutlineUpload size={"1.3rem"} />
+                        <span style={{ marginLeft: "10px" }}>
+                            Upload
+                        </span>
+                    </Button>
+                    <Button variant="outline-light" style={{ marginLeft: "10px", marginBottom: "7px" }}>
+                        <AiFillFolderAdd size={"1.3rem"} />
+                        <span style={{ marginLeft: "10px" }}>
+                            Add Folder
+                        </span>
+                    </Button>
+                    <Button variant="outline-light" style={{ marginLeft: "10px", marginBottom: "7px" }}>
+                        <AiOutlineEdit size={"1.3rem"} />
+                        <span style={{ marginLeft: "10px" }}>
+                            Rename
+                        </span>
+                    </Button>
+                </div>
                 <Form.Group onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                         const filteredPath = filterPath(e.target.value);
                         setPath(filteredPath);
                     }
                 }}>
-                    <Form.Control type="text" value={addressBar} onChange={(e) => {
+                    <Form.Control className={styles.customInput} type="text" value={addressBar} onChange={(e) => {
                         setAddressBar(e.target.value);
                     }} />
                 </Form.Group>
             </div>
-
             <div className={styles.content}>
                 {loading ?
                     <div className={styles.spinnerContainer}>

@@ -9,7 +9,6 @@
 }
 
 .header {
-  height: 50px;
   padding: 10px;
 }
 
@@ -42,5 +41,21 @@
   .spinner {
     width: 10rem;
     height: 10rem;
+  }
+}
+
+.customInput {
+  background-color: #333333;
+  color: #ffffcc;
+  border: 1px solid #ffffcc;
+  padding: 10px;
+  font-size: 16px;
+
+  &:focus {
+    outline: none;
+    border-color: #ffcc00;
+    box-shadow: 0 0 5px #ffcc00;
+    background-color: #333333;
+    color: white;
   }
 }
