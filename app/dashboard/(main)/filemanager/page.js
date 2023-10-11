@@ -12,9 +12,12 @@ import {
     AiOutlineEdit,
 } from "react-icons/ai";
 import styles from '@/styles/filemanager.module.scss';
-import { useState, useEffect } from 'react';
-import { folderFileList as RfolderFileList } from '@/services/Filemanager';
-
+import { useState, useEffect, useContext } from 'react';
+import {
+    folderFileList as RfolderFileList,
+    deleteFolder as RdeleteFolder
+} from '@/services/Filemanager';
+import { toastContext } from '@/app/contexts/errorToast';
 
 export default function Home() {
 
@@ -24,6 +27,9 @@ export default function Home() {
     const [loading, setLoading] = useState(false);
     const [addressBar, setAddressBar] = useState("");
     const [error, setError] = useState(null);
+
+    const { status, updateStatus } = useContext(toastContext);
+
 
     const isImageFileName = (fileName) => {
         const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.svg']; // Add more extensions if needed
@@ -67,6 +73,35 @@ export default function Home() {
             setLoading(false);
         }
     }
+    const deleteFolder = async (folder) => {
+        try {
+            let location = [...path];
+            location.push(folder);
+            const { data } = await RdeleteFolder({ location });
+            const { message } = data;
+            updateStatus({
+                status: true,
+                title: 'Delete Folder',
+                body: message,
+            });
+            folderFileList();
+        } catch (error) {
+            console.log(error);
+            if (error?.response?.data?.message) {
+                updateStatus({
+                    status: true,
+                    title: 'Delete Folder',
+                    body: error.response.data.message,
+                });
+            } else {
+                updateStatus({
+                    status: true,
+                    title: 'Delete Folder',
+                    body: 'Something is wrong!',
+                });
+            }
+        }
+    }
 
 
     useEffect(() => {
@@ -86,13 +121,16 @@ export default function Home() {
                             Back
                         </span>
                     </Button>
-                    <Button variant="outline-danger" style={{ marginLeft: "10px", marginBottom: "7px" }}>
+                    <Button variant="outline-danger" style={{ marginLeft: "10px", marginBottom: "7px" }} onClick={() => {
+                        deleteFolder("something");
+                    }}>
                         <AiOutlineDelete size={"1.3rem"} />
                         <span style={{ marginLeft: "10px" }}>
                             Delete
                         </span>
                     </Button>
-                    <Button variant="outline-success" style={{ marginLeft: "10px", marginBottom: "7px" }}>
+                    <Button variant="outline-success" style={{ marginLeft: "10px", marginBottom: "7px" }} onClick={() => {
+                    }}>
                         <AiOutlineUpload size={"1.3rem"} />
                         <span style={{ marginLeft: "10px" }}>
                             Upload
