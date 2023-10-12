@@ -1,23 +1,26 @@
 'use client'
-import { Container, Row, Col, Form, Spinner, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form, Spinner, Button, ProgressBar } from 'react-bootstrap';
 import {
     AiOutlineFile,
     AiOutlineFileImage,
     AiOutlineFolder,
     AiOutlineArrowLeft,
-    AiOutlineArrowRight,
+    AiOutlineReload,
     AiOutlineDelete,
     AiOutlineUpload,
     AiFillFolderAdd,
     AiOutlineEdit,
 } from "react-icons/ai";
 import styles from '@/styles/filemanager.module.scss';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import {
     folderFileList as RfolderFileList,
-    deleteFolder as RdeleteFolder
+    deleteFolder as RdeleteFolder,
+    saveFile as RsaveFile
 } from '@/services/Filemanager';
 import { toastContext } from '@/app/contexts/errorToast';
+import { cModalContext } from '@/app/contexts/cModal';
+
 
 export default function Home() {
 
@@ -27,9 +30,12 @@ export default function Home() {
     const [loading, setLoading] = useState(false);
     const [addressBar, setAddressBar] = useState("");
     const [error, setError] = useState(null);
+    const [file, setfile] = useState(null);
 
-    const { status, updateStatus } = useContext(toastContext);
+    const { toastStatus, toastUpdater } = useContext(toastContext);
+    const { cModalStatus, cModalUpdater } = useContext(cModalContext);
 
+    const fileInputRef = useRef(null);
 
     const isImageFileName = (fileName) => {
         const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.svg']; // Add more extensions if needed
@@ -79,7 +85,7 @@ export default function Home() {
             location.push(folder);
             const { data } = await RdeleteFolder({ location });
             const { message } = data;
-            updateStatus({
+            toastUpdater({
                 status: true,
                 title: 'Delete Folder',
                 body: message,
@@ -88,13 +94,13 @@ export default function Home() {
         } catch (error) {
             console.log(error);
             if (error?.response?.data?.message) {
-                updateStatus({
+                toastUpdater({
                     status: true,
                     title: 'Delete Folder',
                     body: error.response.data.message,
                 });
             } else {
-                updateStatus({
+                toastUpdater({
                     status: true,
                     title: 'Delete Folder',
                     body: 'Something is wrong!',
@@ -103,6 +109,52 @@ export default function Home() {
         }
     }
 
+    const saveFile = async (event) => {
+        try {
+            let formData = new FormData();
+            formData.append("location", JSON.stringify(path));
+            for (let i = 0; i < event.target.files.length; i++) {
+                const file = event.target.files[i];
+                formData.append("files[]", file);
+            }
+            const { data } = await RsaveFile(formData, (persent) => {
+                if (persent === 100) {
+                    cModalUpdater({
+                        status: false,
+                        title: null,
+                        body: null,
+                    });
+                } else {
+                    cModalUpdater({
+                        status: true,
+                        title: 'Uploading File ...',
+                        body: <ProgressBar now={persent} label={`${persent}%`} />,
+                    });
+                }
+            });
+            const { message } = data;
+            toastUpdater({
+                status: true,
+                title: 'Delete Folder',
+                body: message,
+            });
+            folderFileList();
+        } catch (error) {
+            if (error?.response?.data?.message) {
+                toastUpdater({
+                    status: true,
+                    title: 'Delete Folder',
+                    body: error.response.data.message,
+                });
+            } else {
+                toastUpdater({
+                    status: true,
+                    title: 'Delete Folder',
+                    body: 'Something is wrong!',
+                });
+            }
+        }
+    }
 
     useEffect(() => {
         setAddressBar(path.join('/'));
@@ -130,10 +182,23 @@ export default function Home() {
                         </span>
                     </Button>
                     <Button variant="outline-success" style={{ marginLeft: "10px", marginBottom: "7px" }} onClick={() => {
+                        cModalUpdater
+                        fileInputRef.current.click();
+
                     }}>
                         <AiOutlineUpload size={"1.3rem"} />
                         <span style={{ marginLeft: "10px" }}>
                             Upload
+                            <input
+                                id="file"
+                                type="file"
+                                accept="image/*"
+                                aria-describedby="file"
+                                multiple
+                                ref={fileInputRef}
+                                style={{ display: "none" }}
+                                onChange={saveFile}
+                            />
                         </span>
                     </Button>
                     <Button variant="outline-light" style={{ marginLeft: "10px", marginBottom: "7px" }}>
@@ -146,6 +211,14 @@ export default function Home() {
                         <AiOutlineEdit size={"1.3rem"} />
                         <span style={{ marginLeft: "10px" }}>
                             Rename
+                        </span>
+                    </Button>
+                    <Button variant="outline-light" style={{ marginLeft: "10px", marginBottom: "7px" }} onClick={() => {
+                        folderFileList();
+                    }}>
+                        <AiOutlineReload size={"1.3rem"} />
+                        <span style={{ marginLeft: "10px" }}>
+                            Reload
                         </span>
                     </Button>
                 </div>
