@@ -16,7 +16,8 @@ import { useState, useEffect, useContext, useRef } from 'react';
 import {
     folderFileList as RfolderFileList,
     deleteFolder as RdeleteFolder,
-    saveFile as RsaveFile
+    saveFile as RsaveFile,
+    createFolder as RcreateFolder
 } from '@/services/Filemanager';
 import { toastContext } from '@/app/contexts/errorToast';
 import { cModalContext } from '@/app/contexts/cModal';
@@ -109,6 +110,34 @@ export default function Home() {
         }
     }
 
+    const createFile = async (folderName) => {
+        try {
+            const { data } = await RcreateFolder({ location: path, folderName });
+            const { message } = data;
+            toastUpdater({
+                status: true,
+                title: 'create Folder',
+                body: message,
+            });
+            folderFileList();
+        } catch (error) {
+            console.log(error);
+            if (error?.response?.data?.message) {
+                toastUpdater({
+                    status: true,
+                    title: 'create Folder',
+                    body: error.response.data.message,
+                });
+            } else {
+                toastUpdater({
+                    status: true,
+                    title: 'create Folder',
+                    body: 'Something is wrong!',
+                });
+            }
+        }
+    }
+
     const saveFile = async (event) => {
         try {
             let formData = new FormData();
@@ -135,7 +164,7 @@ export default function Home() {
             const { message } = data;
             toastUpdater({
                 status: true,
-                title: 'Delete Folder',
+                title: 'File Upload',
                 body: message,
             });
             folderFileList();
@@ -143,13 +172,13 @@ export default function Home() {
             if (error?.response?.data?.message) {
                 toastUpdater({
                     status: true,
-                    title: 'Delete Folder',
+                    title: 'File Upload',
                     body: error.response.data.message,
                 });
             } else {
                 toastUpdater({
                     status: true,
-                    title: 'Delete Folder',
+                    title: 'File Upload',
                     body: 'Something is wrong!',
                 });
             }
@@ -201,7 +230,23 @@ export default function Home() {
                             />
                         </span>
                     </Button>
-                    <Button variant="outline-light" style={{ marginLeft: "10px", marginBottom: "7px" }}>
+                    <Button variant="outline-light" style={{ marginLeft: "10px", marginBottom: "7px" }} onClick={() => {
+                        console.log("Sda");
+                        cModalUpdater({
+                            status: true,
+                            title: 'Create Folder',
+                            body: <Form.Control className={styles.customInput} type="text" onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    createFile(e.target.value);
+                                    cModalUpdater({
+                                        status: false,
+                                        title: null,
+                                        body: null,
+                                    });
+                                }
+                            }} />,
+                        });
+                    }}>
                         <AiFillFolderAdd size={"1.3rem"} />
                         <span style={{ marginLeft: "10px" }}>
                             Add Folder
