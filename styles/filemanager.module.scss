@@ -26,13 +26,28 @@
   align-items: center;
   justify-content: center;
   margin: 5px;
-
   .fileName {
     text-align: center;
   }
+ 
 }
-
+.fileActive {
+  background-color: red;
+}
 .spinnerContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  .spinner {
+    width: 10rem;
+    height: 10rem;
+  }
+}
+.spinnerContainerModal {
+  display: flex;
+  justify-content: center;
   position: absolute;
   top: 50%;
   left: 50%;

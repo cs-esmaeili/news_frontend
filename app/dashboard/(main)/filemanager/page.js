@@ -21,6 +21,7 @@ import {
 } from '@/services/Filemanager';
 import { toastContext } from '@/app/contexts/errorToast';
 import { cModalContext } from '@/app/contexts/cModal';
+import Image from 'next/image';
 
 
 export default function Home() {
@@ -203,7 +204,9 @@ export default function Home() {
                         </span>
                     </Button>
                     <Button variant="outline-danger" style={{ marginLeft: "10px", marginBottom: "7px" }} onClick={() => {
-                        deleteFolder("something");
+                        // if (!file.includes(".")) {
+                            deleteFolder(file);
+                        // }
                     }}>
                         <AiOutlineDelete size={"1.3rem"} />
                         <span style={{ marginLeft: "10px" }}>
@@ -280,7 +283,7 @@ export default function Home() {
             </div>
             <div className={styles.content}>
                 {loading ?
-                    <div className={styles.spinnerContainer}>
+                    <div className={styles.spinnerContainer} >
                         <Spinner className={styles.spinner} animation="border" variant="warning" />
                     </div>
                     : null}
@@ -291,9 +294,13 @@ export default function Home() {
                     : null}
                 <Row>
                     {content && content.folders.map((folder, index) =>
-                        <Col key={index} lg={2} className={styles.file} onClick={() => {
-                            setPath(prevPath => [...prevPath, folder]);
-                        }}>
+                        <Col key={index} lg={2} className={`${styles.file} ${(file == folder) ? styles.fileActive : null}`}
+                            onDoubleClick={() => {
+                                setPath(prevPath => [...prevPath, folder]);
+                            }}
+                            onClick={() => {
+                                setfile(folder);
+                            }}>
                             <div>
                                 <AiOutlineFolder size={"5rem"} />
                             </div>
@@ -302,49 +309,57 @@ export default function Home() {
                             </span>
                         </Col>
                     )}
-                    {content && content.files.map((file, index) =>
-                        <Col key={index} lg={2} className={styles.file}>
+                    {content && content.files.map((tempfile, index) =>
+                        <Col key={index} lg={2} className={`${styles.file} ${(file == tempfile) ? styles.fileActive : null}`}
+                            onClick={() => {
+                                setfile(tempfile);
+                            }}
+                            onDoubleClick={() => {
+                                const loadImageModal = (loading) => {
+                                    const element = (
+                                        <Container>
+                                            <Row>
+                                                {(loading) ?
+                                                    <div className={styles.spinnerContainerModal} >
+                                                        <Spinner className={styles.spinner} animation="border" variant="warning" />
+                                                    </div>
+                                                    : null}
+                                                <Image
+                                                    onLoad={() => {
+                                                        loadImageModal(false);
+                                                    }}
+                                                    loader={() => (baseUrl + tempfile)}
+                                                    src={baseUrl + tempfile}
+                                                    alt="Picture of the author"
+                                                    width={500}
+                                                    height={500} />
+                                            </Row>
+                                        </Container>
+                                    );
+                                    cModalUpdater({
+                                        status: true,
+                                        title: "image",
+                                        body: element,
+                                    });
+                                }
+
+                                if (isImageFileName(tempfile)) {
+                                    loadImageModal(true);
+                                }
+                            }}>
+
                             <div>
-                                {isImageFileName(file) ?
+                                {isImageFileName(tempfile) ?
                                     <AiOutlineFileImage size={"5rem"} />
                                     :
                                     <AiOutlineFile size={"5rem"} />
                                 }
                             </div>
                             <span className={styles.fileName}>
-                                {file}
+                                {tempfile}
                             </span>
                         </Col>
                     )}
-                    {/* 
-                    {[...Array(30)].map((x, i) =>
-                        <>
-                            <Col lg={1} className={styles.file}>
-                                <div>
-                                    <AiOutlineFile size={"5rem"} />
-                                </div>
-                                <span>
-                                    File Name
-                                </span>
-                            </Col>
-                            <Col lg={1} className={styles.file}>
-                                <div>
-                             
-                                </div>
-                                <span>
-                                    File Name
-                                </span>
-                            </Col>
-                            <Col lg={1} className={styles.file}>
-                                <div>
-                                    <AiOutlineFolder size={"5rem"} />
-                                </div>
-                                <span>
-                                    File Name
-                                </span>
-                            </Col>
-                        </>
-                    )} */}
                 </Row>
             </div>
         </Container >

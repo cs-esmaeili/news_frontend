@@ -5,13 +5,11 @@ import { Button, Modal } from 'react-bootstrap';
 function CModal({ data, updater }) {
 
     const { status, title, body } = data;
-
-    // const [show, setShow] = useState(status);
-
     return (
         <Modal
             size="sm"
             // size="lg"
+            dialogClassName="test"
             aria-labelledby="contained-modal-title-vcenter"
             centered
             show={status}
@@ -22,7 +20,7 @@ function CModal({ data, updater }) {
                     {title}
                 </Modal.Title>
             </Modal.Header>
-            <Modal.Body>
+            <Modal.Body className="modalBody">
                 {body}
             </Modal.Body>
             <Modal.Footer>
