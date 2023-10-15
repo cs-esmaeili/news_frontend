@@ -10,6 +10,9 @@ export const folderFileList = (data) => {
 export const deleteFolder = (data) => {
     return http.post(`${prefixUrl}/deleteFolder`, JSON.stringify(data));
 };
+export const deleteFile = (data) => {
+    return http.post(`${prefixUrl}/deleteFile`, JSON.stringify(data));
+};
 export const createFolder = (data) => {
     return http.post(`${prefixUrl}/createFolder`, JSON.stringify(data));
 };

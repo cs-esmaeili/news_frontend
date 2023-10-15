@@ -17,7 +17,8 @@ import {
     folderFileList as RfolderFileList,
     deleteFolder as RdeleteFolder,
     saveFile as RsaveFile,
-    createFolder as RcreateFolder
+    createFolder as RcreateFolder,
+    deleteFile as RdeleteFile,
 } from '@/services/Filemanager';
 import { toastContext } from '@/app/contexts/errorToast';
 import { cModalContext } from '@/app/contexts/cModal';
@@ -81,10 +82,10 @@ export default function Home() {
             setLoading(false);
         }
     }
-    const deleteFolder = async (folder) => {
+    const deleteFolder = async () => {
         try {
             let location = [...path];
-            location.push(folder);
+            location.push(file);
             const { data } = await RdeleteFolder({ location });
             const { message } = data;
             toastUpdater({
@@ -105,6 +106,34 @@ export default function Home() {
                 toastUpdater({
                     status: true,
                     title: 'Delete Folder',
+                    body: 'Something is wrong!',
+                });
+            }
+        }
+    }
+    const deleteFile = async () => {
+        try {
+            let location = [...path];
+            const { data } = await RdeleteFolder({ location, fileName: file });
+            const { message } = data;
+            toastUpdater({
+                status: true,
+                title: 'Delete File',
+                body: message,
+            });
+            folderFileList();
+        } catch (error) {
+            console.log(error);
+            if (error?.response?.data?.message) {
+                toastUpdater({
+                    status: true,
+                    title: 'Delete File',
+                    body: error.response.data.message,
+                });
+            } else {
+                toastUpdater({
+                    status: true,
+                    title: 'Delete File',
                     body: 'Something is wrong!',
                 });
             }
@@ -204,9 +233,11 @@ export default function Home() {
                         </span>
                     </Button>
                     <Button variant="outline-danger" style={{ marginLeft: "10px", marginBottom: "7px" }} onClick={() => {
-                        // if (!file.includes(".")) {
+                        if (!file.includes(".")) {
                             deleteFolder(file);
-                        // }
+                        } else {
+                            deleteFile(file);
+                        }
                     }}>
                         <AiOutlineDelete size={"1.3rem"} />
                         <span style={{ marginLeft: "10px" }}>
@@ -234,7 +265,6 @@ export default function Home() {
                         </span>
                     </Button>
                     <Button variant="outline-light" style={{ marginLeft: "10px", marginBottom: "7px" }} onClick={() => {
-                        console.log("Sda");
                         cModalUpdater({
                             status: true,
                             title: 'Create Folder',
