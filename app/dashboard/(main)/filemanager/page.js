@@ -19,6 +19,7 @@ import {
     saveFile as RsaveFile,
     createFolder as RcreateFolder,
     deleteFile as RdeleteFile,
+    renameFolder as RrenameFolder,
 } from '@/services/Filemanager';
 import { toastContext } from '@/app/contexts/errorToast';
 import { cModalContext } from '@/app/contexts/cModal';
@@ -114,7 +115,7 @@ export default function Home() {
     const deleteFile = async () => {
         try {
             let location = [...path];
-            const { data } = await RdeleteFolder({ location, fileName: file });
+            const { data } = await RdeleteFile({ location, fileName: file });
             const { message } = data;
             toastUpdater({
                 status: true,
@@ -162,6 +163,33 @@ export default function Home() {
                 toastUpdater({
                     status: true,
                     title: 'create Folder',
+                    body: 'Something is wrong!',
+                });
+            }
+        }
+    }
+    const renameFolder = async (newName) => {
+        try {
+            const { data } = await RrenameFolder({ location: path, oldName: file, newName });
+            const { message } = data;
+            toastUpdater({
+                status: true,
+                title: 'Rename Folder',
+                body: message,
+            });
+            folderFileList();
+        } catch (error) {
+            console.log(error);
+            if (error?.response?.data?.message) {
+                toastUpdater({
+                    status: true,
+                    title: 'Rename Folder',
+                    body: error.response.data.message,
+                });
+            } else {
+                toastUpdater({
+                    status: true,
+                    title: 'Rename Folder',
                     body: 'Something is wrong!',
                 });
             }
@@ -268,7 +296,7 @@ export default function Home() {
                         cModalUpdater({
                             status: true,
                             title: 'Create Folder',
-                            body: <Form.Control className={styles.customInput} type="text" onKeyDown={(e) => {
+                            body: <Form.Control className={styles.customInput} autoFocus type="text" onKeyDown={(e) => {
                                 if (e.key === 'Enter') {
                                     createFile(e.target.value);
                                     cModalUpdater({
@@ -285,7 +313,22 @@ export default function Home() {
                             Add Folder
                         </span>
                     </Button>
-                    <Button variant="outline-light" style={{ marginLeft: "10px", marginBottom: "7px" }}>
+                    <Button variant="outline-light" style={{ marginLeft: "10px", marginBottom: "7px" }} onClick={() => {
+                        cModalUpdater({
+                            status: true,
+                            title: 'Rename...',
+                            body: <Form.Control className={styles.customInput} autoFocus type="text" onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    renameFolder(e.target.value);
+                                    cModalUpdater({
+                                        status: false,
+                                        title: null,
+                                        body: null,
+                                    });
+                                }
+                            }} />,
+                        });
+                    }}>
                         <AiOutlineEdit size={"1.3rem"} />
                         <span style={{ marginLeft: "10px" }}>
                             Rename

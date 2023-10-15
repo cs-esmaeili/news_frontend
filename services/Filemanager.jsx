@@ -16,6 +16,12 @@ export const deleteFile = (data) => {
 export const createFolder = (data) => {
     return http.post(`${prefixUrl}/createFolder`, JSON.stringify(data));
 };
+export const renameFolder = (data) => {
+    return http.post(`${prefixUrl}/renameFolder`, JSON.stringify(data));
+};
+export const renameFile = (data) => {
+    return http.post(`${prefixUrl}/renameFile`, JSON.stringify(data));
+};
 
 export const saveFile = (data, uploadLisener) => {
     return http.post(`${prefixUrl}/saveFile`, data, {
