@@ -20,6 +20,7 @@ import {
     createFolder as RcreateFolder,
     deleteFile as RdeleteFile,
     renameFolder as RrenameFolder,
+    renameFile as RrenameFile,
 } from '@/services/Filemanager';
 import { toastContext } from '@/app/contexts/errorToast';
 import { cModalContext } from '@/app/contexts/cModal';
@@ -195,6 +196,33 @@ export default function Home() {
             }
         }
     }
+    const renameFile = async (newName) => {
+        try {
+            const { data } = await RrenameFile({ location: path, oldName: file, newName });
+            const { message } = data;
+            toastUpdater({
+                status: true,
+                title: 'Rename File',
+                body: message,
+            });
+            folderFileList();
+        } catch (error) {
+            console.log(error);
+            if (error?.response?.data?.message) {
+                toastUpdater({
+                    status: true,
+                    title: 'Rename File',
+                    body: error.response.data.message,
+                });
+            } else {
+                toastUpdater({
+                    status: true,
+                    title: 'Rename File',
+                    body: 'Something is wrong!',
+                });
+            }
+        }
+    }
 
     const saveFile = async (event) => {
         try {
@@ -319,7 +347,11 @@ export default function Home() {
                             title: 'Rename...',
                             body: <Form.Control className={styles.customInput} autoFocus type="text" onKeyDown={(e) => {
                                 if (e.key === 'Enter') {
-                                    renameFolder(e.target.value);
+                                    if (file.includes(".")) {
+                                        renameFile(e.target.value);
+                                    } else {
+                                        renameFolder(e.target.value);
+                                    }
                                     cModalUpdater({
                                         status: false,
                                         title: null,
