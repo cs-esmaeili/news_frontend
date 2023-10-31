@@ -1,4 +1,4 @@
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight, MdKeyboardArrowDown, MdKeyboardArrowUp, MdSpaceDashboard } from "react-icons/md";
 import styles from '@/styles/sidebar.module.scss';
 import React, { useState } from 'react';
 import { ListGroup } from 'react-bootstrap';
@@ -27,7 +27,8 @@ const Sidebar = () => {
           setToggleSidebar(!toggleSidebar);
 
         }}>
-        <MdKeyboardArrowRight />
+        {toggleSidebar ? <MdKeyboardArrowLeft /> : <MdKeyboardArrowRight />}
+
       </button>
 
       <div className={`${styles.sidebar}  ${toggleSidebar ? styles.open : ''}`} >
@@ -42,13 +43,16 @@ const Sidebar = () => {
         <ul className={styles.sidebarlist}>
 
           <li onClick={() => { handleClick(1); setToggleSidebar(true); }}>
-            <div className={styles.sidebarlink}>
+            <div className={`${styles.sidebarlink} ${activeIndex === 1 ? styles.open : ''}`}>
               <div className={styles.sidebarNameIcon}>
                 <span className={styles.sidebaricon}>
-                  <FiMail />
+                  <MdSpaceDashboard />
                 </span>
                 <span className={styles.sidebarname}>
-                  Home
+                  Dashboard
+                </span>
+                <span className={styles.sidebarcollapsicon}>
+                  {activeIndex === 1 ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />}
                 </span>
               </div>
               <div className={`${styles.accordioncontent} ${activeIndex === 1 ? styles.open : ''}`} >
@@ -61,13 +65,16 @@ const Sidebar = () => {
             </div>
           </li>
           <li onClick={() => { handleClick(2); setToggleSidebar(true); }}>
-            <div className={styles.sidebarlink}>
+          <div className={`${styles.sidebarlink} ${activeIndex === 2 ? styles.open : ''}`}>
               <div className={styles.sidebarNameIcon}>
                 <span className={styles.sidebaricon}>
                   <FiMail />
                 </span>
                 <span className={styles.sidebarname}>
                   Home
+                </span>
+                <span className={styles.sidebarcollapsicon}>
+                  {activeIndex === 1 ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />}
                 </span>
               </div>
               <div className={`${styles.accordioncontent} ${activeIndex === 2 ? styles.open : ''}`} >

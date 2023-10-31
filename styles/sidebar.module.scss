@@ -36,8 +36,12 @@
   .sidebarname {
     display: none;
   }
-}
 
+  .sidebarcollapsicon {
+    display: none;
+  }
+
+}
 
 .sidebartop {
   width: max-content;
@@ -94,15 +98,20 @@
 
 .sidebarlink {
   display: inline-block;
-  font-size: 1rem;
+  font-size: 1.2rem;
   text-decoration: none;
   color: #8C8C7F;
   padding: 0.8rem 1rem;
   display: flex;
-  background-color: #253d91;
+  // background-color: $accent_color;
   margin-bottom: 1rem;
-  border-radius: 0.8rem;
   flex-direction: column;
+  border-top-left-radius: 5px;
+
+  &.open {
+    background: linear-gradient(to right, #fd7e5031, rgba(0, 0, 0, 0));
+    border-left: 5px solid $accent_color;
+  }
 
 }
 
@@ -111,8 +120,8 @@
 }
 
 .sidebaricon {
-  display: inline-block;
-  font-size: 1.2rem;
+  display: flex;
+  font-size: 2rem;
 }
 
 .sidebarname {
@@ -124,8 +133,17 @@
   animation-fill-mode: forwards;
 }
 
+.sidebarcollapsicon {
+  display: flex;
+  flex-grow: 1;
+  justify-content: flex-end;
+}
+
 .sidebarNameIcon {
+  display: flex;
   flex-direction: row;
+  align-items: center;
+  color: white;
 }
 
 .accordion-header {
@@ -157,4 +175,5 @@
 .listgroupitem {
   background-color: transparent;
   border: none;
+  color: white;
 }
