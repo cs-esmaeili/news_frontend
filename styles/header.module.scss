@@ -1,16 +1,34 @@
+@import 'variables.scss';
+
 .container {
   display: flex;
   flex-direction: column;
   height: 100vh;
   display: flex;
   flex-grow: 1;
-
 }
 
 .header {
+  color: white;
   height: 50px;
+  display: flex;
+  flex-direction: row;
+  margin: 15px;
 }
 
+.headerContainer {
+  display: flex;
+  align-items: center;
+  background-color: $sidebar_color;
+  border-radius: 15px;
+  padding: 7.5px;
+}
+
+.headerProfile {
+  display: flex;
+  margin-left: 20px;
+  align-items: center;
+}
 
 .content {
   display: flex;
@@ -18,4 +36,40 @@
   flex-direction: column;
   overflow: auto;
   padding-left: 5px;
+}
+
+.icons {
+  border-radius: 50%;
+  border: 2px solid #868484;
+  padding: 5px;
+  font-size: 2.3rem;
+}
+
+.bellContainer{
+  margin-left: 5px;
+  position: relative;
+}
+.bellNumber{
+  position: absolute;
+  right: 0px;
+  top: 50%;
+  border-radius: 50%;
+  background-color: red;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profileImage {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+.collapsButton{
+  margin-left: 10px;
+  font-size: 1.5rem;
+}
+.ProfileTexts{
+  text-align: center;
 }

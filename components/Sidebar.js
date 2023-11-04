@@ -3,7 +3,6 @@ import styles from '@/styles/sidebar.module.scss';
 import React, { useState } from 'react';
 import { ListGroup } from 'react-bootstrap';
 import Image from 'next/image';
-import Link from "next/link";
 import { FiMail } from "react-icons/fi";
 
 const Sidebar = () => {
