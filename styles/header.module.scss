@@ -1,5 +1,17 @@
 @import 'variables.scss';
 
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px
+);
+
+
+
 .container {
   display: flex;
   flex-direction: column;
@@ -10,7 +22,6 @@
 
 .header {
   color: white;
-  height: 50px;
   display: flex;
   flex-direction: row;
   margin: 15px;
@@ -28,6 +39,48 @@
   display: flex;
   margin-left: 20px;
   align-items: center;
+  background-color: $sidebar_color;
+  @media (min-width: map-get($grid-breakpoints , lg)) {
+    background-color: transparent;
+  }
+  border-radius: 12px;
+  text-wrap: nowrap;
+  padding: 10px;
+
+}
+
+.menuButton {
+  border-radius: 50%;
+  border: 2px solid #868484;
+  padding: 5px;
+  font-size: 2.3rem;
+  display: flex;
+
+
+  @media (min-width: map-get($grid-breakpoints , lg)) {
+    display: none;
+  }
+}
+
+.collapsAnimation {
+
+  @media (max-width: map-get($grid-breakpoints , lg)) {
+    transform: translate(-90%, 10%);
+    position: absolute;
+    overflow: hidden;
+    max-width: 0;
+    max-height: 0;
+    transition: max-width 0.5s ease-out, max-height 0.5s ease-out;
+
+    &.open {
+      max-width: 100%;
+      max-height: 100%;
+      opacity: 100;
+      transition: max-width 0.5s ease-in, max-height 0.5s ease-in, opacity 0.5s ease-in;
+    }
+  }
+
+
 }
 
 .content {
@@ -45,11 +98,12 @@
   font-size: 2.3rem;
 }
 
-.bellContainer{
+.bellContainer {
   margin-left: 5px;
   position: relative;
 }
-.bellNumber{
+
+.bellNumber {
   position: absolute;
   right: 0px;
   top: 50%;
@@ -66,10 +120,14 @@
   margin-right: 10px;
   margin-left: 10px;
 }
-.collapsButton{
+
+
+
+.collapsButton {
   margin-left: 10px;
   font-size: 1.5rem;
 }
-.ProfileTexts{
+
+.ProfileTexts {
   text-align: center;
 }

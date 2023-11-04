@@ -8,13 +8,14 @@ import { cModalContext } from '@/app/contexts/cModal';
 import { useState } from 'react';
 import { BsSun, BsBellFill } from 'react-icons/bs';
 import { IoIosArrowDropdownCircle } from 'react-icons/io';
+import { TiThMenu } from 'react-icons/ti';
 import ErrorToast from '@/components/toast';
 import CModal from '@/components/modal';
 import { Col, Container, Row } from 'react-bootstrap';
 import Image from 'next/image';
 
 export default function Layout({ children }) {
-
+  const [open, setOpen] = useState(false);
   const [toastStatus, setToastStatus] = useState({
     status: false,
     title: null,
@@ -60,22 +61,49 @@ export default function Layout({ children }) {
                       <Col className={styles.headerContainer}>
                         COL 1
                       </Col>
-                      <Col xl="auto" className={styles.headerProfile}>
-                        <BsSun className={styles.icons} />
-                        <span className={styles.bellContainer}>
-                          <BsBellFill className={styles.icons} />
-                          <span className={styles.bellNumber}>
-                            3
+                      {/* <Col xl="auto" sm="auto" xs="auto" className='hidden-xl'>
+                        <div className={styles.headerProfile}>
+                          <BsSun className={styles.icons} />
+                          <span className={styles.bellContainer}>
+                            <BsBellFill className={styles.icons} />
+                            <span className={styles.bellNumber}>
+                              3
+                            </span>
                           </span>
-                        </span>
-                        <Image className={styles.profileImage} src="/logo.png" alt="Picture of the author"
-                          width={50}
-                          height={50} />
-                        <div className={styles.ProfileTexts}>
-                          <div>Profile name</div>
-                          <div>Admin</div>
+                          <Image className={styles.profileImage} src="/logo.png" alt="Picture of the author"
+                            width={50}
+                            height={50} />
+                          <div className={styles.ProfileTexts}>
+                            <div>Profile name</div>
+                            <div>Admin</div>
+                          </div>
+                          <IoIosArrowDropdownCircle className={styles.collapsButton} />
                         </div>
-                        <IoIosArrowDropdownCircle className={styles.collapsButton} />
+                      </Col> */}
+                      <Col xl="auto" sm="auto" xs="auto" >
+                        <TiThMenu className={styles.menuButton} onClick={() => {
+                          setOpen(!open);
+                        }} />
+                        <div className={`${styles.collapsAnimation} ${open == true ? styles.open : ''}`}>
+
+                          <div className={styles.headerProfile}>
+                            <BsSun className={styles.icons} />
+                            <span className={styles.bellContainer}>
+                              <BsBellFill className={styles.icons} />
+                              <span className={styles.bellNumber}>
+                                3
+                              </span>
+                            </span>
+                            <Image className={styles.profileImage} src="/logo.png" alt="Picture of the author"
+                              width={50}
+                              height={50} />
+                            <div className={styles.ProfileTexts}>
+                              <div>Profile name</div>
+                              <div>Admin</div>
+                            </div>
+                            <IoIosArrowDropdownCircle className={styles.collapsButton} />
+                          </div>
+                        </div>
                       </Col>
                     </Row>
                   </Container>
