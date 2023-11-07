@@ -61,25 +61,6 @@ export default function Layout({ children }) {
                       <Col className={styles.headerContainer}>
                         COL 1
                       </Col>
-                      {/* <Col xl="auto" sm="auto" xs="auto" className='hidden-xl'>
-                        <div className={styles.headerProfile}>
-                          <BsSun className={styles.icons} />
-                          <span className={styles.bellContainer}>
-                            <BsBellFill className={styles.icons} />
-                            <span className={styles.bellNumber}>
-                              3
-                            </span>
-                          </span>
-                          <Image className={styles.profileImage} src="/logo.png" alt="Picture of the author"
-                            width={50}
-                            height={50} />
-                          <div className={styles.ProfileTexts}>
-                            <div>Profile name</div>
-                            <div>Admin</div>
-                          </div>
-                          <IoIosArrowDropdownCircle className={styles.collapsButton} />
-                        </div>
-                      </Col> */}
                       <Col xl="auto" sm="auto" xs="auto" >
                         <TiThMenu className={styles.menuButton} onClick={() => {
                           setOpen(!open);

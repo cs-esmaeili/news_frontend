@@ -1,3 +1,5 @@
+@import 'variables.scss';
+
 .container {
   // width: 100vw;
   color: white;
@@ -26,14 +28,17 @@
   align-items: center;
   justify-content: center;
   margin: 5px;
+
   .fileName {
     text-align: center;
   }
- 
+
 }
+
 .fileActive {
   background-color: red;
 }
+
 .spinnerContainer {
   position: absolute;
   top: 50%;
@@ -45,6 +50,7 @@
     height: 10rem;
   }
 }
+
 .spinnerContainerModal {
   display: flex;
   justify-content: center;
@@ -72,5 +78,182 @@
     box-shadow: 0 0 5px #ffcc00;
     background-color: #333333;
     color: white;
+  }
+}
+
+.filesPanel {
+  position: relative;
+  background-color: $sidebar_color;
+  margin-left: 30px;
+  margin-right: 30px;
+  height: 100%;
+  padding: 15px;
+  border-radius: 30px;
+}
+
+.flotingPanel {
+  position: absolute;
+  background-color: $background_color;
+  padding: 7.5px;
+  padding-right: 0px;
+  border-radius: 15px;
+  margin-right: 15px;
+  margin-left: 15px;
+
+  &.right {
+    right: 0px;
+  }
+
+  &.left {
+    left: 0px;
+  }
+}
+
+.collapsButton {
+  position: relative;
+  top: 0;
+  right: 0;
+  margin-top: 10px;
+  margin-right: 10px;
+  text-align: end;
+
+  &.open {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
+
+.filePriviewPanel {
+  background-color: $sidebar_color;
+  margin-left: 15px;
+  margin-right: 30px;
+  border-radius: 30px;
+  padding: 15px;
+}
+
+@keyframes openAnimation {
+  0% {
+    width: 0;
+    height: 0;
+    padding: 0;
+  }
+
+  90% {
+    opacity: 0;
+  }
+
+  100% {
+    width: 320px;
+    height: 120px;
+    opacity: 1;
+  }
+}
+
+@keyframes closeAnimation {
+  0% {
+    width: 0;
+    height: 0;
+    padding: 0;
+  }
+
+  90% {
+    opacity: 0;
+  }
+
+  100% {
+    width: 320px;
+    height: 120px;
+    opacity: 1;
+  }
+}
+
+.flotingPanelContent {
+  margin-top: 8px;
+  margin-right: 15px;
+  white-space: nowrap;
+  padding: 0;
+  width: 0;
+  height: 0;
+  opacity: 0;
+
+
+  &.open {
+    animation-name: openAnimation;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-direction: normal;
+  }
+
+  &.close {
+    animation-name: closeAnimation;
+    animation-duration: 1s;
+    animation-fill-mode: backwards;
+    animation-direction: reverse;
+  }
+}
+
+
+
+.mainRow {
+  height: 100%;
+  margin-bottom: 15px;
+}
+
+.floationPanelFirstRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.icons {
+  border-radius: 50%;
+  border: 2px solid #868484;
+  padding: 5px;
+  font-size: 2.3rem;
+  margin-left: 5px;
+
+  &.red {
+    color: #ED2D21;
+  }
+
+  &.green {
+    color: #6CE94D;
+  }
+
+  &.blue {
+    color: #8DDCF5;
+  }
+
+  &.yellow {
+    color: #EFF31B;
+  }
+
+  &.orange {
+    color: $accent_color;
+  }
+}
+
+.searchBar {
+  width: 20rem;
+  padding: 5px;
+  background-color: $sidebar_color;
+  border-radius: 30px;
+  padding-left: 15px;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+
+  .searchBarIcon {
+    margin-right: 10px;
+  }
+
+  .searchInput {
+    background-color: $sidebar_color;
+    border-color: transparent;
+    flex-grow: 1;
+    outline-width: 0;
+    color: white;
+
   }
 }

@@ -40,9 +40,11 @@ $grid-breakpoints: (
   margin-left: 20px;
   align-items: center;
   background-color: $sidebar_color;
+
   @media (min-width: map-get($grid-breakpoints , lg)) {
     background-color: transparent;
   }
+
   border-radius: 12px;
   text-wrap: nowrap;
   padding: 10px;
@@ -85,10 +87,10 @@ $grid-breakpoints: (
 
 .content {
   display: flex;
-  height: calc(100% - 50px);
   flex-direction: column;
-  overflow: auto;
+  overflow: hidden;
   padding-left: 5px;
+  flex-grow: 1;
 }
 
 .icons {
