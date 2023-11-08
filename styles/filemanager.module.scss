@@ -1,5 +1,13 @@
 @import 'variables.scss';
 
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px
+);
 .container {
   // width: 100vw;
   color: white;
@@ -100,6 +108,10 @@
   margin-right: 15px;
   margin-left: 15px;
 
+  @media (max-width: map-get($grid-breakpoints , sm)) {
+    left: 0px;
+  }
+
   &.right {
     right: 0px;
   }
@@ -145,7 +157,7 @@
 
   100% {
     width: 320px;
-    height: 120px;
+    height: 100%;
     opacity: 1;
   }
 }
@@ -163,7 +175,7 @@
 
   100% {
     width: 320px;
-    height: 120px;
+    height: 100%;
     opacity: 1;
   }
 }
@@ -177,7 +189,9 @@
   height: 0;
   opacity: 0;
 
-
+  // width: 320px;
+  // height: 120px;
+  // opacity: 1;
   &.open {
     animation-name: openAnimation;
     animation-duration: 1s;
@@ -235,7 +249,7 @@
 }
 
 .searchBar {
-  width: 20rem;
+  width: 100%;
   padding: 5px;
   background-color: $sidebar_color;
   border-radius: 30px;

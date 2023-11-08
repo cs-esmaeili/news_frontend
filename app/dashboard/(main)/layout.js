@@ -5,17 +5,14 @@ import Sidebar from '@/components/Sidebar';
 import styles from '@/styles/header.module.scss';
 import { toastContext } from '@/app/contexts/errorToast';
 import { cModalContext } from '@/app/contexts/cModal';
-import { useState } from 'react';
-import { BsSun, BsBellFill } from 'react-icons/bs';
-import { IoIosArrowDropdownCircle } from 'react-icons/io';
-import { TiThMenu } from 'react-icons/ti';
+import { useState, useEffect } from 'react';
 import ErrorToast from '@/components/toast';
 import CModal from '@/components/modal';
-import { Col, Container, Row } from 'react-bootstrap';
-import Image from 'next/image';
+import Header from '@/components/Header';
+
 
 export default function Layout({ children }) {
-  const [open, setOpen] = useState(false);
+
   const [toastStatus, setToastStatus] = useState({
     status: false,
     title: null,
@@ -43,6 +40,36 @@ export default function Layout({ children }) {
       ...newState,
     }));
   };
+  const [smallMode, setSmallMode] = useState(false);
+  const [toggleSidebar, setToggleSidebar] = useState(false);
+
+
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 992) {
+        setToggleSidebar(false);
+      } else {
+        setToggleSidebar(true);
+      }
+    };
+    handleResize();
+
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (window.innerWidth <= 576 && toggleSidebar == true) {
+      setSmallMode(true);
+    } else {
+      setSmallMode(false);
+    }
+  }, [toggleSidebar]);
+
 
   return (
     <html lang="en">
@@ -53,46 +80,20 @@ export default function Layout({ children }) {
 
             <toastContext.Provider value={{ toastStatus, toastUpdater }}>
               <ErrorToast data={toastStatus} updater={(value) => setToastStatus(value)} />
-              <Sidebar />
-              <div className={styles.container}>
-                <div className={styles.header}>
-                  <Container fluid>
-                    <Row>
-                      <Col className={styles.headerContainer}>
-                        COL 1
-                      </Col>
-                      <Col xl="auto" sm="auto" xs="auto" >
-                        <TiThMenu className={styles.menuButton} onClick={() => {
-                          setOpen(!open);
-                        }} />
-                        <div className={`${styles.collapsAnimation} ${open == true ? styles.open : ''}`}>
+              <Sidebar setSmallMode={setSmallMode} toggleSidebar={toggleSidebar} setToggleSidebar={setToggleSidebar} />
+              {smallMode == false ?
+                <div className={styles.container}>
+                  <div className={styles.header}>
+                    <Header changeSideBarStatus={() => setToggleSidebar(!toggleSidebar)} />
+                  </div>
+                  <div className={styles.content}>
+                    {children}
+                  </div>
+                </div>
+                :
+                null
+              }
 
-                          <div className={styles.headerProfile}>
-                            <BsSun className={styles.icons} />
-                            <span className={styles.bellContainer}>
-                              <BsBellFill className={styles.icons} />
-                              <span className={styles.bellNumber}>
-                                3
-                              </span>
-                            </span>
-                            <Image className={styles.profileImage} src="/logo.png" alt="Picture of the author"
-                              width={50}
-                              height={50} />
-                            <div className={styles.ProfileTexts}>
-                              <div>Profile name</div>
-                              <div>Admin</div>
-                            </div>
-                            <IoIosArrowDropdownCircle className={styles.collapsButton} />
-                          </div>
-                        </div>
-                      </Col>
-                    </Row>
-                  </Container>
-                </div>
-                <div className={styles.content}>
-                  {children}
-                </div>
-              </div>
             </toastContext.Provider>
           </cModalContext.Provider>
         </div >

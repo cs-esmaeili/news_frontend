@@ -41,8 +41,6 @@ export default function Home() {
                             </div>
                         </div>
                     </div>
-                    <button onClick={() => setOpen(!open)}>click</button>
-                    salam
                 </Col>
                
             </Row>

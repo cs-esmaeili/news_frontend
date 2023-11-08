@@ -1,19 +1,20 @@
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight, MdKeyboardArrowDown, MdKeyboardArrowUp, MdSpaceDashboard } from "react-icons/md";
 import styles from '@/styles/sidebar.module.scss';
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ListGroup } from 'react-bootstrap';
 import Image from 'next/image';
 import { FiMail } from "react-icons/fi";
 
-const Sidebar = () => {
+const Sidebar = ({ toggleSidebar, setToggleSidebar, setSmallMode }) => {
 
   const [activeIndex, setActiveIndex] = useState(null);
-  const [toggleSidebar, setToggleSidebar] = useState(true);
+
 
 
   const handleClick = (index) => {
     setActiveIndex(index === activeIndex ? null : index);
   };
+
 
   return (
     <div className={styles.sidebarwrapper} data-collapse={toggleSidebar}>
@@ -64,7 +65,7 @@ const Sidebar = () => {
             </div>
           </li>
           <li onClick={() => { handleClick(2); setToggleSidebar(true); }}>
-          <div className={`${styles.sidebarlink} ${activeIndex === 2 ? styles.open : ''}`}>
+            <div className={`${styles.sidebarlink} ${activeIndex === 2 ? styles.open : ''}`}>
               <div className={styles.sidebarNameIcon}>
                 <span className={styles.sidebaricon}>
                   <FiMail />

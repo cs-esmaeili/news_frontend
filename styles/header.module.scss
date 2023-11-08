@@ -33,6 +33,7 @@ $grid-breakpoints: (
   background-color: $sidebar_color;
   border-radius: 15px;
   padding: 7.5px;
+
 }
 
 .headerProfile {
@@ -52,8 +53,6 @@ $grid-breakpoints: (
 }
 
 .menuButton {
-  border-radius: 50%;
-  border: 2px solid #868484;
   padding: 5px;
   font-size: 2.3rem;
   display: flex;
@@ -64,7 +63,19 @@ $grid-breakpoints: (
   }
 }
 
+.clollapsButton {
+
+  padding: 5px;
+  font-size: 2.3rem;
+  display: none;
+
+  @media (max-width: map-get($grid-breakpoints , sm)) {
+    display: flex;
+  }
+}
+
 .collapsAnimation {
+  z-index: 1;
 
   @media (max-width: map-get($grid-breakpoints , lg)) {
     transform: translate(-90%, 10%);
@@ -81,8 +92,6 @@ $grid-breakpoints: (
       transition: max-width 0.5s ease-in, max-height 0.5s ease-in, opacity 0.5s ease-in;
     }
   }
-
-
 }
 
 .content {
