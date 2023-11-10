@@ -8,8 +8,8 @@ $grid-breakpoints: (
   xl: 1200px,
   xxl: 1400px
 );
+
 .container {
-  // width: 100vw;
   color: white;
   display: flex;
   flex-direction: column;
@@ -22,13 +22,6 @@ $grid-breakpoints: (
   padding: 10px;
 }
 
-.content {
-  flex-grow: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 10px;
-  position: relative;
-}
 
 .file {
   display: flex;
@@ -39,12 +32,13 @@ $grid-breakpoints: (
 
   .fileName {
     text-align: center;
+    color: white;
   }
 
 }
 
 .fileActive {
-  background-color: red;
+  background-color: #ffffff17;
 }
 
 .spinnerContainer {
@@ -108,9 +102,6 @@ $grid-breakpoints: (
   margin-right: 15px;
   margin-left: 15px;
 
-  @media (max-width: map-get($grid-breakpoints , sm)) {
-    left: 0px;
-  }
 
   &.right {
     right: 0px;
@@ -119,6 +110,8 @@ $grid-breakpoints: (
   &.left {
     left: 0px;
   }
+
+
 }
 
 .collapsButton {
@@ -144,80 +137,47 @@ $grid-breakpoints: (
   padding: 15px;
 }
 
-@keyframes openAnimation {
-  0% {
-    width: 0;
-    height: 0;
-    padding: 0;
-  }
 
-  90% {
-    opacity: 0;
-  }
-
-  100% {
-    width: 320px;
-    height: 100%;
-    opacity: 1;
-  }
-}
-
-@keyframes closeAnimation {
-  0% {
-    width: 0;
-    height: 0;
-    padding: 0;
-  }
-
-  90% {
-    opacity: 0;
-  }
-
-  100% {
-    width: 320px;
-    height: 100%;
-    opacity: 1;
-  }
-}
 
 .flotingPanelContent {
   margin-top: 8px;
   margin-right: 15px;
   white-space: nowrap;
   padding: 0;
-  width: 0;
-  height: 0;
-  opacity: 0;
 
-  // width: 320px;
-  // height: 120px;
-  // opacity: 1;
-  &.open {
-    animation-name: openAnimation;
-    animation-duration: 1s;
-    animation-fill-mode: forwards;
-    animation-direction: normal;
-  }
-
-  &.close {
-    animation-name: closeAnimation;
-    animation-duration: 1s;
-    animation-fill-mode: backwards;
-    animation-direction: reverse;
-  }
 }
 
-
-
-.mainRow {
-  height: 100%;
-  margin-bottom: 15px;
-}
-
-.floationPanelFirstRow {
-  display: flex;
+.headerContainer {
+  border-radius: 30px;
+  background-color: $sidebar_color;
+  border-radius: 30px;
+  margin: 10px;
+  padding: 15px;
   align-items: center;
-  justify-content: space-between;
+}
+
+.fileContainer {
+  flex-grow: 1;
+  background-color: $sidebar_color;
+  border-radius: 30px;
+  margin: 10px;
+  padding: 15px;
+}
+
+.files {
+  position: relative;
+
+  .folder {
+    color: #EFF31B;
+  }
+
+  .image {
+    color: #0CEE81;
+  }
+
+  .file {
+    color: #1B99F3;
+  }
 }
 
 .icons {
@@ -251,10 +211,9 @@ $grid-breakpoints: (
 .searchBar {
   width: 100%;
   padding: 5px;
-  background-color: $sidebar_color;
+  background-color: $background_color;
   border-radius: 30px;
   padding-left: 15px;
-  margin-top: 10px;
   display: flex;
   align-items: center;
 
@@ -263,7 +222,7 @@ $grid-breakpoints: (
   }
 
   .searchInput {
-    background-color: $sidebar_color;
+    background-color: $background_color;
     border-color: transparent;
     flex-grow: 1;
     outline-width: 0;
