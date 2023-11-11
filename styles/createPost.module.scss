@@ -2,6 +2,7 @@
 
 .container {
   color: white;
+  overflow-y: scroll;
 }
 
 .newRow {
@@ -26,6 +27,7 @@
   border-radius: 30px;
   padding: 15px;
   margin-bottom: 10px;
+
   .cardHeader {
     display: flex;
     align-items: center;
@@ -54,6 +56,13 @@
       outline-width: 0;
       color: white;
     }
+
+    .textInput::-webkit-resizer {
+      border-width: 15px;
+      border-style: solid;
+      border-color: transparent $accent_color $accent_color transparent;
+    }
+
   }
 
   .icon {

@@ -11,16 +11,22 @@ import { useState, useEffect, useContext, useRef } from 'react';
 
 export default function Home() {
 
+    const scrollContainerRef = useRef(null);
     const [content, setContent] = useState(
         [
-            [{ type: "text", content: "this is text 1" }, { type: "image", content: "this is text 2" }],
-            [{ type: "text", content: "this is text 3" }, { type: "text", content: "this is text 4" }],
-            [{ type: "text", content: "this is text 5" }]
+            // [{ type: "text", content: "this is text 1" }, { type: "image", content: "this is text 2" }],
+            // [{ type: "text", content: "this is text 3" }, { type: "text", content: "this is text 4" }],
+            // [{ type: "text", content: "this is text 5" }]
         ]
     );
+
+    const prevContentRef = useRef(content.length);
+    useEffect(() => {
+        scrollContainerRef.current.scrollTop = scrollContainerRef.current.scrollHeight;
+    }, [content.length]);
+
     const card = (index, header, body, activeType) => {
         const { parentIndex, childIndex } = index;
-        { console.log(parentIndex, childIndex) }
         return (
             <Container fluid className={styles.cardNewPost}>
                 <Row className={styles.cardHeader}>
@@ -65,11 +71,7 @@ export default function Home() {
     }
 
     return (
-        <Container fluid className={styles.container}>
-            <div className={styles.newRow}>
-                <PiRectangleBold className={styles.icon} />
-                <VscLayoutSidebarLeft className={styles.icon} />
-            </div>
+        <Container fluid className={styles.container} ref={scrollContainerRef}>
             <Row>
                 {content && content.map((ParentContent, parentIndex) => ParentContent.map((ChildContent, childIndex) =>
                     <Col lg={(ParentContent.length == 2) ? 6 : 12}>
@@ -113,6 +115,18 @@ export default function Home() {
                 ))}
 
             </Row>
+            <div className={styles.newRow}>
+                <PiRectangleBold className={styles.icon} onClick={() => {
+                    let temp = [...content];
+                    temp.push([{ type: "text", content: "" }]);
+                    setContent(temp);
+                }} />
+                <VscLayoutSidebarLeft className={styles.icon} onClick={() => {
+                    let temp = [...content];
+                    temp.push([{ type: "text", content: "" }, { type: "text", content: "" }]);
+                    setContent(temp);
+                }} />
+            </div>
         </Container>
     )
 }
