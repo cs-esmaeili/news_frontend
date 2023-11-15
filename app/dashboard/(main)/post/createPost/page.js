@@ -8,9 +8,12 @@ import { AiTwotoneVideoCamera } from "react-icons/ai";
 import { BsImageFill } from 'react-icons/bs';
 import styles from '@/styles/createPost.module.scss';
 import { useState, useEffect, useContext, useRef } from 'react';
+import Filemanager from '../../filemanager/page';
+import { cModalContext } from '@/app/contexts/cModal';
 
 export default function Home() {
 
+    const { cModalStatus, cModalUpdater } = useContext(cModalContext);
     const scrollContainerRef = useRef(null);
     const [content, setContent] = useState(
         [
@@ -20,10 +23,6 @@ export default function Home() {
         ]
     );
 
-    const prevContentRef = useRef(content.length);
-    useEffect(() => {
-        scrollContainerRef.current.scrollTop = scrollContainerRef.current.scrollHeight;
-    }, [content.length]);
 
     const card = (index, header, body, activeType) => {
         const { parentIndex, childIndex } = index;
@@ -49,6 +48,11 @@ export default function Home() {
                             let temp = [...content];
                             temp[parentIndex][childIndex].type = "video";
                             setContent(temp);
+                            cModalUpdater({
+                                status: true,
+                                title: null,
+                                body: <Filemanager />,
+                            });
                         }} />
 
 

@@ -54,7 +54,12 @@ ul {
   // width: max-content;
 }
 
-.test {
+.modalChangeSize {
   width: max-content;
   max-width: 90vw;
+}
+
+.modal .modal-content {
+  background-color: $background_color;
+  color: white;
 }

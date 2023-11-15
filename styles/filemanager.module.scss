@@ -10,6 +10,7 @@ $grid-breakpoints: (
 );
 
 .container {
+  position: relative;
   color: white;
   display: flex;
   flex-direction: column;
