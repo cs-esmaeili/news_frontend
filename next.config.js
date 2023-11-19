@@ -8,6 +8,9 @@ const nextConfig = {
 
     return config;
   },
+  images: {
+    domains: ['localhost'],
+  },
 };
 
 module.exports = nextConfig;

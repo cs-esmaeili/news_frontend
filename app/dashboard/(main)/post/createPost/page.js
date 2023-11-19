@@ -1,19 +1,22 @@
 'use client'
 
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import { PiRectangleBold, PiTextAaFill } from "react-icons/pi";
 import { VscLayoutSidebarLeft } from "react-icons/vsc";
 import { RiCloseFill } from "react-icons/ri";
 import { AiTwotoneVideoCamera } from "react-icons/ai";
 import { BsImageFill } from 'react-icons/bs';
 import styles from '@/styles/createPost.module.scss';
-import { useState, useEffect, useContext, useRef } from 'react';
+import { useState, useEffect, useContext, useRef, use } from 'react';
 import Filemanager from '../../filemanager/page';
 import { cModalContext } from '@/app/contexts/cModal';
+import Image from 'next/image';
 
 export default function Home() {
 
     const { cModalStatus, cModalUpdater } = useContext(cModalContext);
+
+
     const scrollContainerRef = useRef(null);
     const [content, setContent] = useState(
         [
@@ -23,7 +26,22 @@ export default function Home() {
         ]
     );
 
+    useEffect(() => {
+        console.log(content);
+    }, [content]);
 
+    const openFilePicker = (parentIndex, childIndex) => {
+        cModalUpdater({
+            status: true,
+            title: null,
+            body: <Filemanager selectedFile={(file) => {
+                let temp = [...content];
+                temp[parentIndex][childIndex].type = "image";
+                temp[parentIndex][childIndex].content = file;
+                setContent(temp);
+            }} />
+        });
+    }
     const card = (index, header, body, activeType) => {
         const { parentIndex, childIndex } = index;
         return (
@@ -48,13 +66,8 @@ export default function Home() {
                             let temp = [...content];
                             temp[parentIndex][childIndex].type = "video";
                             setContent(temp);
-                            cModalUpdater({
-                                status: true,
-                                title: null,
-                                body: <Filemanager />,
-                            });
-                        }} />
 
+                        }} />
 
                         <RiCloseFill className={`${styles.icon} ${styles.red}`} onClick={() => {
                             let temp = [...content];
@@ -100,7 +113,21 @@ export default function Home() {
                                     You can set your post text in this section...
                                 </div>
                             </>,
-                            <textarea type="text" className={styles.textInput} />,
+                            (content[parentIndex][childIndex].content == "") ?
+                                <BsImageFill className={`${styles.icon} ${styles.green} ${styles.active}`}
+                                    style={{ fontSize: "10rem", borderStyle: "none" }}
+                                    onClick={() => {
+                                        openFilePicker(parentIndex, childIndex);
+                                    }} /> :
+                                <Image src={content[parentIndex][childIndex].content} alt="Picture of the author"
+                                    layout="responsive"
+                                    width={500}
+                                    height={300}
+                                    onClick={() => {
+                                        openFilePicker(parentIndex, childIndex);
+                                    }}
+                                />
+                            ,
                             "image"
                         ) : null}
                         {ChildContent.type == "video" ? card({ parentIndex, childIndex },

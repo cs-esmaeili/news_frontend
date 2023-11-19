@@ -76,6 +76,7 @@ export default function Layout({ children }) {
       <body>
         <div className='d-flex flex-row vh-100'>
           <cModalContext.Provider value={{ cModalStatus, cModalUpdater }}>
+            
             <CModal data={cModalStatus} updater={(value) => setCmodalStatus(value)} />
 
             <toastContext.Provider value={{ toastStatus, toastUpdater }}>

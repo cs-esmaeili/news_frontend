@@ -12,7 +12,7 @@ import Rename from '@/components/filemanager/Rename';
 import Folder from '@/components/filemanager/Folder';
 import Files from '@/components/filemanager/Files';
 
-export default function FileManager() {
+export default function FileManager({ selectedFile = null }) {
 
     const [path, setPath] = useState([]);
     const [content, setContent] = useState(null);
@@ -49,6 +49,11 @@ export default function FileManager() {
     useEffect(() => {
         folderFileList();
     }, [path]);
+    useEffect(() => {
+        if (selectedFile != null && file != null && file.includes('.')) {
+            selectedFile(baseUrl + file);
+        }
+    }, [file]);
 
 
     return (
@@ -92,7 +97,11 @@ export default function FileManager() {
                             <span>{error}</span>
                         </div>
                         : null}
-                    <Files files={content} baseUrl={baseUrl} file={file} setFile={setfile} setPath={setPath} />
+                    <Files files={content}
+                        baseUrl={baseUrl}
+                        file={file}
+                        setFile={setfile} setPath={setPath}
+                        selectedFile={selectedFile} />
                 </Container>
             </Row>
         </Container>

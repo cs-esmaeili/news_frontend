@@ -3,7 +3,7 @@ import { Button, Modal } from 'react-bootstrap';
 
 function CModal({ data, updater }) {
 
-    const { status, title, body } = data;
+    const { status, title, body, footer = null } = data;
     return (
         <Modal
             size="sm"
@@ -25,6 +25,7 @@ function CModal({ data, updater }) {
             </Modal.Body>
             <Modal.Footer>
                 <Button onClick={() => updater(false)}>Close</Button>
+                {footer}
             </Modal.Footer>
         </Modal>
     );
