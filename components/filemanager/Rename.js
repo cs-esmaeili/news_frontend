@@ -1,19 +1,14 @@
 import styles from '@/styles/filemanager.module.scss';
-import { toastContext } from '@/app/contexts/errorToast';
-import { cModalContext } from '@/app/contexts/cModal';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import {
     renameFolder as RrenameFolder,
     renameFile as RrenameFile,
 } from '@/services/Filemanager';
 import { BiSolidEdit } from 'react-icons/bi';
-import { Form } from 'react-bootstrap';
 
 
-export default function Rename({ path, file, reloadFileList }) {
+export default function Rename({ path, file, reloadFileList, setToast }) {
 
-    const { toastStatus, toastUpdater } = useContext(toastContext);
-    const { cModalStatus, cModalUpdater } = useContext(cModalContext);
     const [inputOpen, setInputOpen] = useState(false);
 
     const renameFolder = async (newName) => {
@@ -21,8 +16,8 @@ export default function Rename({ path, file, reloadFileList }) {
             console.log({ location: path, oldName: file, newName });
             const { data } = await RrenameFolder({ location: path, oldName: file, newName });
             const { message } = data;
-            toastUpdater({
-                status: true,
+            setToast({
+
                 title: 'Rename Folder',
                 body: message,
             });
@@ -30,14 +25,14 @@ export default function Rename({ path, file, reloadFileList }) {
         } catch (error) {
             console.log(error);
             if (error?.response?.data?.message) {
-                toastUpdater({
-                    status: true,
+                setToast({
+
                     title: 'Rename Folder',
                     body: error.response.data.message,
                 });
             } else {
-                toastUpdater({
-                    status: true,
+                setToast({
+
                     title: 'Rename Folder',
                     body: 'Something is wrong!',
                 });
@@ -49,8 +44,8 @@ export default function Rename({ path, file, reloadFileList }) {
             console.log({ location: path, oldName: file, newName });
             const { data } = await RrenameFile({ location: path, oldName: file, newName });
             const { message } = data;
-            toastUpdater({
-                status: true,
+            setToast({
+
                 title: 'Rename File',
                 body: message,
             });
@@ -58,14 +53,14 @@ export default function Rename({ path, file, reloadFileList }) {
         } catch (error) {
             console.log(error);
             if (error?.response?.data?.message) {
-                toastUpdater({
-                    status: true,
+                setToast({
+
                     title: 'Rename File',
                     body: error.response.data.message,
                 });
             } else {
-                toastUpdater({
-                    status: true,
+                setToast({
+
                     title: 'Rename File',
                     body: 'Something is wrong!',
                 });

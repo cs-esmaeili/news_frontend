@@ -1,16 +1,13 @@
 import styles from '@/styles/filemanager.module.scss';
 import { PiUploadBold } from 'react-icons/pi';
-import { toastContext } from '@/app/contexts/errorToast';
-import { useContext } from 'react';
 import { saveFile as RsaveFile, } from '@/services/Filemanager';
 import { ProgressBar } from 'react-bootstrap';
-import { cModalContext } from '@/app/contexts/cModal';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
-export default function UploadFile({ path, reloadFileList }) {
+export default function UploadFile({ path, reloadFileList, setToast }) {
 
-    const { toastStatus, toastUpdater } = useContext(toastContext);
-    const { cModalStatus, cModalUpdater } = useContext(cModalContext);
+    const [inputOpen, setInputOpen] = useState(false);
+    const [persent, setPersent] = useState(0);
 
     const fileInputRef = useRef(null);
 
@@ -22,38 +19,27 @@ export default function UploadFile({ path, reloadFileList }) {
                 const file = event.target.files[i];
                 formData.append("files[]", file);
             }
+            setPersent(0);
             const { data } = await RsaveFile(formData, (persent) => {
-                if (persent === 100) {
-                    cModalUpdater({
-                        status: false,
-                        title: null,
-                        body: null,
-                    });
-                } else {
-                    cModalUpdater({
-                        status: true,
-                        title: 'Uploading File ...',
-                        body: <ProgressBar now={persent} label={`${persent}%`} />,
-                    });
+                setPersent(persent);
+                if (persent > 1 && inputOpen == false) {
+                    setInputOpen(true);
                 }
             });
+
             const { message } = data;
-            toastUpdater({
-                status: true,
-                title: 'File Upload',
-                body: message,
-            });
+            setInputOpen(false);
             reloadFileList();
+            setToast({ title: 'File Upload', body: message });
+
         } catch (error) {
             if (error?.response?.data?.message) {
-                toastUpdater({
-                    status: true,
+                setToast({
                     title: 'File Upload',
                     body: error.response.data.message,
                 });
             } else {
-                toastUpdater({
-                    status: true,
+                setToast({
                     title: 'File Upload',
                     body: 'Something is wrong!',
                 });
@@ -63,20 +49,25 @@ export default function UploadFile({ path, reloadFileList }) {
 
     return (
         <>
-            <PiUploadBold className={`${styles.icons} ${styles.green}`} onClick={() => {
-                cModalUpdater
-                fileInputRef.current.click();
-            }} />
-            <input
-                id="file"
-                type="file"
-                accept="image/*, video/*"
-                aria-describedby="file"
-                multiple
-                ref={fileInputRef}
-                style={{ display: "none" }}
-                onChange={saveFile}
-            />
+            <span className={styles.inputBar}>
+                <PiUploadBold className={`${styles.icons} ${styles.green}`} onClick={() => {
+                    if (!inputOpen) {
+                        fileInputRef.current.click();
+                    }
+                }} />
+                <input
+                    id="file"
+                    type="file"
+                    accept="image/*, video/*"
+                    aria-describedby="file"
+                    multiple
+                    ref={fileInputRef}
+                    style={{ display: "none" }}
+                    onChange={saveFile}
+                />
+                <ProgressBar now={persent} label={`${persent}%`} className={`${styles.progressBar} ${(inputOpen) ? styles.open : null}`} />
+            </span>
         </>
+
     )
 }

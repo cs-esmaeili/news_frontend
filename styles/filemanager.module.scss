@@ -247,6 +247,22 @@ $grid-breakpoints: (
   align-items: center;
 
 
+  .progressBar{
+    width: 10rem;
+    margin-left: 5px;
+    margin-right: 7px;
+    transition: max-width 2s;
+    background-color: $background_color;
+    border-color: transparent;
+    flex-grow: 1;
+    outline-width: 0;
+
+    margin-right: 0px;
+    max-width : 0px;
+    opacity: 0;
+
+  }
+
   .input {
     transition: max-width 2s;
     background-color: $background_color;

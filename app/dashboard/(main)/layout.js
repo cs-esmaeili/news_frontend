@@ -6,27 +6,12 @@ import styles from '@/styles/header.module.scss';
 import { toastContext } from '@/app/contexts/errorToast';
 import { cModalContext } from '@/app/contexts/cModal';
 import { useState, useEffect } from 'react';
-import ErrorToast from '@/components/toast';
 import CModal from '@/components/modal';
 import Header from '@/components/Header';
 
 
 export default function Layout({ children }) {
 
-  const [toastStatus, setToastStatus] = useState({
-    status: false,
-    title: null,
-    body: null,
-  });
-
-  const toastUpdater = (newState) => {
-    setToastStatus((prevState) => ({
-      ...prevState,
-      ...newState,
-    }));
-  };
-
-  /////////////////////////
 
   const [cModalStatus, setCmodalStatus] = useState({
     status: false,
@@ -76,11 +61,7 @@ export default function Layout({ children }) {
       <body>
         <div className='d-flex flex-row vh-100'>
           <cModalContext.Provider value={{ cModalStatus, cModalUpdater }}>
-            
             <CModal data={cModalStatus} updater={(value) => setCmodalStatus(value)} />
-
-            <toastContext.Provider value={{ toastStatus, toastUpdater }}>
-              <ErrorToast data={toastStatus} updater={(value) => setToastStatus(value)} />
               <Sidebar setSmallMode={setSmallMode} toggleSidebar={toggleSidebar} setToggleSidebar={setToggleSidebar} />
               {smallMode == false ?
                 <div className={styles.container}>
@@ -95,7 +76,6 @@ export default function Layout({ children }) {
                 null
               }
 
-            </toastContext.Provider>
           </cModalContext.Provider>
         </div >
       </body>

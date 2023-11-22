@@ -1,15 +1,10 @@
 import styles from '@/styles/filemanager.module.scss';
-import { toastContext } from '@/app/contexts/errorToast';
-import { cModalContext } from '@/app/contexts/cModal';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { createFolder as RcreateFolder } from '@/services/Filemanager';
 import { BiSolidFolderPlus } from 'react-icons/bi';
-import { Form } from 'react-bootstrap';
 
-export default function Folder({ path, reloadFileList }) {
+export default function Folder({ path, reloadFileList , setToast }) {
 
-    const { toastStatus, toastUpdater } = useContext(toastContext);
-    const { cModalStatus, cModalUpdater } = useContext(cModalContext);
 
     const [inputOpen, setInputOpen] = useState(false);
 
@@ -17,8 +12,7 @@ export default function Folder({ path, reloadFileList }) {
         try {
             const { data } = await RcreateFolder({ location: path, folderName });
             const { message } = data;
-            toastUpdater({
-                status: true,
+            setToast({
                 title: 'create Folder',
                 body: message,
             });
@@ -26,14 +20,12 @@ export default function Folder({ path, reloadFileList }) {
         } catch (error) {
             console.log(error);
             if (error?.response?.data?.message) {
-                toastUpdater({
-                    status: true,
+                setToast({
                     title: 'create Folder',
                     body: error.response.data.message,
                 });
             } else {
-                toastUpdater({
-                    status: true,
+                setToast({
                     title: 'create Folder',
                     body: 'Something is wrong!',
                 });
@@ -51,11 +43,6 @@ export default function Folder({ path, reloadFileList }) {
                         createFolder(e.target.value);
                         setInputOpen(false);
                         e.target.value="";
-                        cModalUpdater({
-                            status: false,
-                            title: null,
-                            body: null,
-                        });
                     }
                 }} />
             </span>
