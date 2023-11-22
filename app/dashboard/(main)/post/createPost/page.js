@@ -1,15 +1,16 @@
 'use client'
 
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import { PiRectangleBold, PiTextAaFill } from "react-icons/pi";
 import { VscLayoutSidebarLeft } from "react-icons/vsc";
 import { RiCloseFill } from "react-icons/ri";
 import { AiTwotoneVideoCamera } from "react-icons/ai";
 import { BsImageFill } from 'react-icons/bs';
 import styles from '@/styles/createPost.module.scss';
-import { useState, useEffect, useContext, useRef, use } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import Filemanager from '../../filemanager/page';
 import { cModalContext } from '@/app/contexts/cModal';
+import VideoJS from '@/components/videoPlayer';
 import Image from 'next/image';
 
 export default function Home() {
@@ -30,16 +31,16 @@ export default function Home() {
         console.log(content);
     }, [content]);
 
-    const openFilePicker = (parentIndex, childIndex) => {
+    const openFilePicker = (parentIndex, childIndex, type) => {
         cModalUpdater({
             status: true,
             title: null,
             body: <Filemanager selectedFile={(file) => {
                 let temp = [...content];
-                temp[parentIndex][childIndex].type = "image";
+                temp[parentIndex][childIndex].type = type;
                 temp[parentIndex][childIndex].content = file;
                 setContent(temp);
-            }} />
+            }} fileTypes={type} />
         });
     }
     const card = (index, header, body, activeType) => {
@@ -55,16 +56,19 @@ export default function Home() {
                         <PiTextAaFill className={`${styles.icon} ${styles.yellow} ${(activeType == "text") ? styles.active : ""}`} onClick={() => {
                             let temp = [...content];
                             temp[parentIndex][childIndex].type = "text";
+                            temp[parentIndex][childIndex].content = "";
                             setContent(temp);
                         }} />
                         <BsImageFill className={`${styles.icon} ${styles.green} ${(activeType == "image") ? styles.active : ""}`} onClick={() => {
                             let temp = [...content];
                             temp[parentIndex][childIndex].type = "image";
+                            temp[parentIndex][childIndex].content = "";
                             setContent(temp);
                         }} />
                         <AiTwotoneVideoCamera className={`${styles.icon} ${styles.blue} ${(activeType == "video") ? styles.active : ""}`} onClick={() => {
                             let temp = [...content];
                             temp[parentIndex][childIndex].type = "video";
+                            temp[parentIndex][childIndex].content = "";
                             setContent(temp);
 
                         }} />
@@ -86,7 +90,6 @@ export default function Home() {
             </Container>
         );
     }
-
     return (
         <Container fluid className={styles.container} ref={scrollContainerRef}>
             <Row>
@@ -117,14 +120,14 @@ export default function Home() {
                                 <BsImageFill className={`${styles.icon} ${styles.green} ${styles.active}`}
                                     style={{ fontSize: "10rem", borderStyle: "none" }}
                                     onClick={() => {
-                                        openFilePicker(parentIndex, childIndex);
+                                        openFilePicker(parentIndex, childIndex, "image");
                                     }} /> :
                                 <Image src={content[parentIndex][childIndex].content} alt="Picture of the author"
                                     layout="responsive"
                                     width={500}
                                     height={300}
                                     onClick={() => {
-                                        openFilePicker(parentIndex, childIndex);
+                                        openFilePicker(parentIndex, childIndex, "image");
                                     }}
                                 />
                             ,
@@ -139,7 +142,24 @@ export default function Home() {
                                     You can set your post text in this section...
                                 </div>
                             </>,
-                            <textarea type="text" className={styles.textInput} />,
+                            (content[parentIndex][childIndex].content == "") ?
+                                <AiTwotoneVideoCamera className={`${styles.icon} ${styles.blue} ${styles.active}`}
+                                    style={{ fontSize: "10rem", borderStyle: "none" }}
+                                    onClick={() => {
+                                        openFilePicker(parentIndex, childIndex, "video");
+                                    }} />
+                                :
+                                <VideoJS options={{
+                                    autoplay: false,
+                                    controls: true,
+                                    responsive: true,
+                                    fluid: true,
+                                    sources: [{
+                                        src: content[parentIndex][childIndex].content,
+                                        type: 'video/mp4'
+                                    }]
+                                }} />
+                            ,
                             "video"
                         ) : null}
                     </Col>

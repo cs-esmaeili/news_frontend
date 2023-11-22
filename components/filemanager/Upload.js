@@ -70,7 +70,7 @@ export default function UploadFile({ path, reloadFileList }) {
             <input
                 id="file"
                 type="file"
-                accept="image/*"
+                accept="image/*, video/*"
                 aria-describedby="file"
                 multiple
                 ref={fileInputRef}

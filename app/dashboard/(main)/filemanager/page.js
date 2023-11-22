@@ -12,7 +12,7 @@ import Rename from '@/components/filemanager/Rename';
 import Folder from '@/components/filemanager/Folder';
 import Files from '@/components/filemanager/Files';
 
-export default function FileManager({ selectedFile = null }) {
+export default function FileManager({ selectedFile = null, fileTypes = null }) {
 
     const [path, setPath] = useState([]);
     const [content, setContent] = useState(null);
@@ -101,7 +101,9 @@ export default function FileManager({ selectedFile = null }) {
                         baseUrl={baseUrl}
                         file={file}
                         setFile={setfile} setPath={setPath}
-                        selectedFile={selectedFile} />
+                        selectedFile={selectedFile}
+                        fileTypes={fileTypes}
+                        />
                 </Container>
             </Row>
         </Container>

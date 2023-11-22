@@ -2,12 +2,13 @@ import styles from '@/styles/filemanager.module.scss';
 import { cModalContext } from '@/app/contexts/cModal';
 import { Container, Row, Col, Spinner, Button } from 'react-bootstrap';
 import { PiFolderFill } from "react-icons/pi";
-import { BsImageFill } from "react-icons/bs";
+import { BsImageFill, BsFileEarmarkFill } from "react-icons/bs";
+import { AiTwotoneVideoCamera } from "react-icons/ai";
 import { useContext } from 'react';
 import Image from 'next/image';
 import Filemanager from '../../app/dashboard/(main)/filemanager/page';
 
-export default function Files({ files, baseUrl, file, setFile, setPath, selectedFile }) {
+export default function Files({ files, baseUrl, file, setFile, setPath, selectedFile, fileTypes }) {
 
     const { cModalStatus, cModalUpdater } = useContext(cModalContext);
 
@@ -17,6 +18,22 @@ export default function Files({ files, baseUrl, file, setFile, setPath, selected
         const extension = fileName.toLowerCase().substring(fileName.lastIndexOf('.'));
 
         return imageExtensions.includes(extension);
+    }
+    const isVideoFileName = (fileName) => {
+        const videoExtensions = ['.mp4', '.mov', '.avi', '.mkv', '.wmv'];
+        const extension = fileName.toLowerCase().substring(fileName.lastIndexOf('.'));
+
+        return videoExtensions.includes(extension);
+    };
+
+    const fileIcon = (tempfile) => {
+        if (isImageFileName(tempfile)) {
+            return (<BsImageFill size={"5rem"} className={styles.image} />);
+        } else if (isVideoFileName(tempfile)) {
+            return (<AiTwotoneVideoCamera size={"5rem"} className={styles.video} />);
+        } else {
+            return (<BsFileEarmarkFill size={"5rem"} className={styles.file} />);
+        }
     }
 
     const Folders = (folder, index) => {
@@ -88,11 +105,7 @@ export default function Files({ files, baseUrl, file, setFile, setPath, selected
                     }
                 }}>
                 <div>
-                    {isImageFileName(tempfile) ?
-                        <BsImageFill size={"5rem"} className={styles.image} />
-                        :
-                        <BsFileEarmarkFill size={"5rem"} className={styles.file} />
-                    }
+                    {fileIcon(tempfile)}
                 </div>
                 <span className={styles.fileName}>
                     {tempfile}
@@ -102,8 +115,19 @@ export default function Files({ files, baseUrl, file, setFile, setPath, selected
     }
     return (
         <Row>
+            {console.log(fileTypes)}
             {files && files.folders.map((folder, index) => Folders(folder, index))}
-            {files && files.files.map((file, index) => Files(file, index))}
+            {files && files.files.map((file, index) => {
+                if (fileTypes == null) {
+                    return Files(file, index);
+                } else if (fileTypes == "image" && !isImageFileName(file)) {
+                    return null;
+                } else if (fileTypes == "video" && !isVideoFileName(file)) {
+                    return null;
+                } else {
+                    return Files(file, index);
+                }
+            })}
         </Row>
     )
 }
