@@ -115,9 +115,17 @@ export default function Files({ files, baseUrl, file, setFile, setPath, selected
     }
     return (
         <Row>
-            {console.log(fileTypes)}
-            {files && files.folders.map((folder, index) => Folders(folder, index))}
+            {files && files.folders.map((folder, index) => {
+                if(file == null && index == 0){
+                    setFile(folder);
+                }
+                return Folders(folder, index);
+            })}
             {files && files.files.map((file, index) => {
+                 if(file == null && index == 0){
+                    setFile(file);
+                }
+
                 if (fileTypes == null) {
                     return Files(file, index);
                 } else if (fileTypes == "image" && !isImageFileName(file)) {

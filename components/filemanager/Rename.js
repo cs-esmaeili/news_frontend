@@ -1,7 +1,7 @@
 import styles from '@/styles/filemanager.module.scss';
 import { toastContext } from '@/app/contexts/errorToast';
 import { cModalContext } from '@/app/contexts/cModal';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import {
     renameFolder as RrenameFolder,
     renameFile as RrenameFile,
@@ -14,9 +14,11 @@ export default function Rename({ path, file, reloadFileList }) {
 
     const { toastStatus, toastUpdater } = useContext(toastContext);
     const { cModalStatus, cModalUpdater } = useContext(cModalContext);
+    const [inputOpen, setInputOpen] = useState(false);
 
     const renameFolder = async (newName) => {
         try {
+            console.log({ location: path, oldName: file, newName });
             const { data } = await RrenameFolder({ location: path, oldName: file, newName });
             const { message } = data;
             toastUpdater({
@@ -44,6 +46,7 @@ export default function Rename({ path, file, reloadFileList }) {
     }
     const renameFile = async (newName) => {
         try {
+            console.log({ location: path, oldName: file, newName });
             const { data } = await RrenameFile({ location: path, oldName: file, newName });
             const { message } = data;
             toastUpdater({
@@ -71,25 +74,23 @@ export default function Rename({ path, file, reloadFileList }) {
     }
 
     return (
-        <BiSolidEdit className={`${styles.icons} ${styles.blue}`} onClick={() => {
-            cModalUpdater({
-                status: true,
-                title: 'Rename...',
-                body: <Form.Control className={styles.customInput} autoFocus type="text" onKeyDown={(e) => {
+        <>
+            <span className={styles.inputBar}>
+                <BiSolidEdit className={`${styles.icons} ${styles.blue}`} onClick={() => {
+                    setInputOpen(!inputOpen);
+                }} />
+                <input className={`${styles.input} ${(inputOpen) ? styles.open : null}`} placeholder='search something...' onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                         if (file.includes(".")) {
                             renameFile(e.target.value);
                         } else {
                             renameFolder(e.target.value);
                         }
-                        cModalUpdater({
-                            status: false,
-                            title: null,
-                            body: null,
-                        });
+                        setInputOpen(false);
+                        e.target.value = "";
                     }
-                }} />,
-            });
-        }} />
+                }} />
+            </span>
+        </>
     )
 }
