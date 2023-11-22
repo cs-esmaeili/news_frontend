@@ -1,7 +1,7 @@
 import styles from '@/styles/filemanager.module.scss';
 import { toastContext } from '@/app/contexts/errorToast';
 import { cModalContext } from '@/app/contexts/cModal';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { createFolder as RcreateFolder } from '@/services/Filemanager';
 import { BiSolidFolderPlus } from 'react-icons/bi';
 import { Form } from 'react-bootstrap';
@@ -10,6 +10,8 @@ export default function Folder({ path, reloadFileList }) {
 
     const { toastStatus, toastUpdater } = useContext(toastContext);
     const { cModalStatus, cModalUpdater } = useContext(cModalContext);
+
+    const [inputOpen, setInputOpen] = useState(false);
 
     const createFolder = async (folderName) => {
         try {
@@ -39,21 +41,24 @@ export default function Folder({ path, reloadFileList }) {
         }
     }
     return (
-        <BiSolidFolderPlus className={`${styles.icons} ${styles.yellow}`} onClick={() => {
-            cModalUpdater({
-                status: true,
-                title: 'Create Folder',
-                body: <Form.Control className={styles.customInput} autoFocus type="text" onKeyDown={(e) => {
+        <>
+            <span className={styles.inputBar}>
+                <BiSolidFolderPlus className={`${styles.icons} ${styles.yellow}`} onClick={() => {
+                    setInputOpen(!inputOpen);
+                }} />
+                <input className={`${styles.input} ${(inputOpen) ? styles.open : null}`} placeholder='search something...' onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                         createFolder(e.target.value);
+                        setInputOpen(false);
+                        e.target.value="";
                         cModalUpdater({
                             status: false,
                             title: null,
                             body: null,
                         });
                     }
-                }} />,
-            });
-        }} />
+                }} />
+            </span>
+        </>
     )
 }

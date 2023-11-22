@@ -148,6 +148,10 @@ $grid-breakpoints: (
 
 }
 
+.opetionContainer {
+  display: flex;
+}
+
 .headerContainer {
   border-radius: 30px;
   background-color: $sidebar_color;
@@ -233,5 +237,32 @@ $grid-breakpoints: (
     outline-width: 0;
     color: white;
 
+  }
+}
+
+.inputBar {
+  background-color: $background_color;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+
+
+  .input {
+    transition: max-width 2s;
+    background-color: $background_color;
+    border-color: transparent;
+    flex-grow: 1;
+    outline-width: 0;
+    color: white;
+
+    margin-right: 0px;
+    max-width : 0px;
+    opacity: 0;
+
+  }
+  .open {
+    margin-right: 10px;
+    max-width : 500px;
+    opacity: 1;
   }
 }

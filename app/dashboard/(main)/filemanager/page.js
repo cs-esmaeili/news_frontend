@@ -59,7 +59,7 @@ export default function FileManager({ selectedFile = null, fileTypes = null }) {
     return (
         <Container className={styles.container} fluid >
             <Row className={styles.headerContainer}>
-                <Col>
+                <Col className={styles.opetionContainer}>
                     <TfiReload className={`${styles.icons}`} onClick={() => {
                         folderFileList();
                     }} />
