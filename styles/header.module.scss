@@ -18,6 +18,18 @@ $grid-breakpoints: (
   height: 100vh;
   display: flex;
   flex-grow: 1;
+
+  &.sideBarIsOpen {
+    max-width: calc(100% - 17rem);
+  }
+
+  &.sideBarIsClose {
+    max-width: calc(100% - 5.3rem);
+  }
+
+  &.smallMode {
+    max-width: 100% ;
+  }
 }
 
 .header {

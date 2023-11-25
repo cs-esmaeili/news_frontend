@@ -60,9 +60,7 @@ export default function FileManager({ selectedFile = null, fileTypes = null }) {
 
     return (
         <Container className={styles.container} fluid >
-
             <ErrorToast data={toast} updater={(value) => setToast(value)} />
-
             <Row className={styles.headerContainer}>
                 <Col className={styles.opetionContainer}>
                     <TfiReload className={`${styles.icons}`} onClick={() => {

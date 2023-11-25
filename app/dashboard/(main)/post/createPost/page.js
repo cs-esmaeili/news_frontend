@@ -1,6 +1,6 @@
 'use client'
 
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import { PiRectangleBold, PiTextAaFill } from "react-icons/pi";
 import { VscLayoutSidebarLeft } from "react-icons/vsc";
 import { RiCloseFill } from "react-icons/ri";
@@ -11,9 +11,11 @@ import { useState, useEffect, useContext, useRef } from 'react';
 import Filemanager from '../../filemanager/page';
 import { cModalContext } from '@/app/contexts/cModal';
 import VideoJS from '@/components/videoPlayer';
+import Cinput from '@/components/Cinput';
+import { createPost as RcreatePost } from '@/services/Post';
 import Image from 'next/image';
 
-export default function Home() {
+export default function CreatePost() {
 
     const { cModalStatus, cModalUpdater } = useContext(cModalContext);
 
@@ -27,8 +29,30 @@ export default function Home() {
         ]
     );
 
+    const createPost = async () => {
+        try {
+            const { data } = await RcreatePost({});
+            const { content, baseUrl } = data;
+            setContent(content);
+            setBaseUrl(baseUrl);
+            if (content.folders.length == 0 && content.files.length == 0) {
+                setError('مسیر خالی میباشد');
+            }
+        } catch (error) {
+            console.log(error);
+            if (error?.response?.data?.message) {
+                setError(error.response.data.message);
+            } else {
+                setError('Something is wrong!');
+            }
+        } finally {
+            setLoading(false);
+        }
+    }
+
+
     useEffect(() => {
-        console.log(content);
+        scrollContainerRef.current.scrollTop = scrollContainerRef.current.scrollHeight;
     }, [content]);
 
     const openFilePicker = (parentIndex, childIndex, type) => {
@@ -52,7 +76,6 @@ export default function Home() {
                         {header}
                     </Col>
                     <Col lg="auto">
-
                         <PiTextAaFill className={`${styles.icon} ${styles.yellow} ${(activeType == "text") ? styles.active : ""}`} onClick={() => {
                             let temp = [...content];
                             temp[parentIndex][childIndex].type = "text";
@@ -66,6 +89,7 @@ export default function Home() {
                             setContent(temp);
                         }} />
                         <AiTwotoneVideoCamera className={`${styles.icon} ${styles.blue} ${(activeType == "video") ? styles.active : ""}`} onClick={() => {
+                            scrollContainerRef.current.scrollTop = scrollContainerRef.current.scrollHeight;
                             let temp = [...content];
                             temp[parentIndex][childIndex].type = "video";
                             temp[parentIndex][childIndex].content = "";
@@ -92,6 +116,17 @@ export default function Home() {
     }
     return (
         <Container fluid className={styles.container} ref={scrollContainerRef}>
+            <Row className={styles.globalInformation}>
+                <Col>
+                    <Cinput placeholder="Title" icon={<BsImageFill className={styles.searchBarIcon} />} />
+                </Col>
+                <Col>
+                    <Cinput placeholder="Discription" icon={<BsImageFill className={styles.searchBarIcon} />} />
+                </Col>
+                <Col>
+                    <Cinput placeholder="something" icon={<BsImageFill className={styles.searchBarIcon} />} />
+                </Col>
+            </Row>
             <Row>
                 {content && content.map((ParentContent, parentIndex) => ParentContent.map((ChildContent, childIndex) =>
                     <Col lg={(ParentContent.length == 2) ? 6 : 12}>
@@ -177,6 +212,14 @@ export default function Home() {
                     temp.push([{ type: "text", content: "" }, { type: "text", content: "" }]);
                     setContent(temp);
                 }} />
+            </div>
+            <div className={styles.submitRow}>
+                <Button variant="outline-danger" className={styles.cbutton} onClick={() => {
+                    setContent([]);
+                }}>Delete</Button>
+                <Button variant="success" className={styles.cbutton} onClick={() => {
+
+                }}>Submit</Button>
             </div>
         </Container>
     )

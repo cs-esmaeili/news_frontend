@@ -3,7 +3,6 @@
 import '@/styles/global.scss';
 import Sidebar from '@/components/Sidebar';
 import styles from '@/styles/header.module.scss';
-import { toastContext } from '@/app/contexts/errorToast';
 import { cModalContext } from '@/app/contexts/cModal';
 import { useState, useEffect } from 'react';
 import CModal from '@/components/modal';
@@ -25,7 +24,8 @@ export default function Layout({ children }) {
       ...newState,
     }));
   };
-  const [smallMode, setSmallMode] = useState(false);
+  const [showContent, setShowContent] = useState(false);
+  const [smallScreen, setSmallScreen] = useState(false);
   const [toggleSidebar, setToggleSidebar] = useState(false);
 
 
@@ -37,6 +37,12 @@ export default function Layout({ children }) {
       } else {
         setToggleSidebar(true);
       }
+      if (window.innerWidth <= 576) {
+        setSmallScreen(true);
+      } else {
+        setSmallScreen(false);
+      }
+
     };
     handleResize();
 
@@ -49,11 +55,13 @@ export default function Layout({ children }) {
 
   useEffect(() => {
     if (window.innerWidth <= 576 && toggleSidebar == true) {
-      setSmallMode(true);
+      setShowContent(true);
     } else {
-      setSmallMode(false);
+      setShowContent(false);
     }
   }, [toggleSidebar]);
+
+
 
 
   return (
@@ -62,20 +70,19 @@ export default function Layout({ children }) {
         <div className='d-flex flex-row vh-100'>
           <cModalContext.Provider value={{ cModalStatus, cModalUpdater }}>
             <CModal data={cModalStatus} updater={(value) => setCmodalStatus(value)} />
-              <Sidebar setSmallMode={setSmallMode} toggleSidebar={toggleSidebar} setToggleSidebar={setToggleSidebar} />
-              {smallMode == false ?
-                <div className={styles.container}>
-                  <div className={styles.header}>
-                    <Header changeSideBarStatus={() => setToggleSidebar(!toggleSidebar)} />
-                  </div>
-                  <div className={styles.content}>
-                    {children}
-                  </div>
+            <Sidebar setSmallMode={setShowContent} toggleSidebar={toggleSidebar} setToggleSidebar={setToggleSidebar} />
+            {showContent == false ?
+              <div className={`${styles.container} ${toggleSidebar ? styles.sideBarIsOpen : styles.sideBarIsClose} ${smallScreen ? styles.smallMode : null}`} >
+                <div className={styles.header}>
+                  <Header changeSideBarStatus={() => setToggleSidebar(!toggleSidebar)} />
                 </div>
-                :
-                null
-              }
-
+                <div className={styles.content}>
+                  {children}
+                </div>
+              </div>
+              :
+              null
+            }
           </cModalContext.Provider>
         </div >
       </body>
