@@ -38,7 +38,7 @@ export default function Files({ files, baseUrl, file, setFile, setPath, selected
 
     const Folders = (folder, index) => {
         return (
-            <Col key={index} lg={2} className={`${styles.file} ${(file == folder) ? styles.fileActive : null}`}
+            <Col key={index} xl={1} lg={2} md={3} sm={3} xs={3} className={`${styles.file} ${(file == folder) ? styles.fileActive : null}`}
                 onClick={() => {
 
                     setFile(folder);
@@ -59,7 +59,7 @@ export default function Files({ files, baseUrl, file, setFile, setPath, selected
 
     const Files = (tempfile, index) => {
         return (
-            <Col key={index} lg={2} className={`${styles.file} ${(file == tempfile) ? styles.fileActive : null}`}
+            <Col key={index} xl={1} lg={2} md={3} sm={3}  xs={3} className={`${styles.file} ${(file == tempfile) ? styles.fileActive : null}`}
                 onClick={() => {
                     setFile(tempfile);
                 }}
@@ -116,13 +116,13 @@ export default function Files({ files, baseUrl, file, setFile, setPath, selected
     return (
         <Row>
             {files && files.folders.map((folder, index) => {
-                if(file == null && index == 0){
+                if (file == null && index == 0) {
                     setFile(folder);
                 }
                 return Folders(folder, index);
             })}
             {files && files.files.map((file, index) => {
-                 if(file == null && index == 0){
+                if (file == null && index == 0) {
                     setFile(file);
                 }
 
