@@ -5,9 +5,9 @@ import {
     renameFile as RrenameFile,
 } from '@/services/Filemanager';
 import { BiSolidEdit } from 'react-icons/bi';
+import toast from 'react-hot-toast';
 
-
-export default function Rename({ path, file, reloadFileList, setToast }) {
+export default function Rename({ path, file, reloadFileList }) {
 
     const [inputOpen, setInputOpen] = useState(false);
 
@@ -16,26 +16,13 @@ export default function Rename({ path, file, reloadFileList, setToast }) {
             console.log({ location: path, oldName: file, newName });
             const { data } = await RrenameFolder({ location: path, oldName: file, newName });
             const { message } = data;
-            setToast({
-
-                title: 'Rename Folder',
-                body: message,
-            });
+            toast.success(message);
             reloadFileList();
         } catch (error) {
-            console.log(error);
             if (error?.response?.data?.message) {
-                setToast({
-
-                    title: 'Rename Folder',
-                    body: error.response.data.message,
-                });
+                toast.error(error.response.data.message);
             } else {
-                setToast({
-
-                    title: 'Rename Folder',
-                    body: 'Something is wrong!',
-                });
+                toast.error('Something is wrong!');
             }
         }
     }
@@ -44,26 +31,13 @@ export default function Rename({ path, file, reloadFileList, setToast }) {
             console.log({ location: path, oldName: file, newName });
             const { data } = await RrenameFile({ location: path, oldName: file, newName });
             const { message } = data;
-            setToast({
-
-                title: 'Rename File',
-                body: message,
-            });
+            toast.success(message);
             reloadFileList();
         } catch (error) {
-            console.log(error);
             if (error?.response?.data?.message) {
-                setToast({
-
-                    title: 'Rename File',
-                    body: error.response.data.message,
-                });
+                toast.error(error.response.data.message);
             } else {
-                setToast({
-
-                    title: 'Rename File',
-                    body: 'Something is wrong!',
-                });
+                toast.error('Something is wrong!');
             }
         }
     }

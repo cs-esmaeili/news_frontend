@@ -1,4 +1,5 @@
 import styles from '@/styles/filemanager.module.scss';
+import toast from 'react-hot-toast';
 import { IoMdTrash } from 'react-icons/io';
 import {
     deleteFolder as RdeleteFolder,
@@ -6,7 +7,7 @@ import {
 } from '@/services/Filemanager';
 
 
-export default function DeleteFile({ path, file , reloadFileList , setToast }) {
+export default function DeleteFile({ path, file, reloadFileList }) {
 
 
     const deleteFile = async () => {
@@ -14,22 +15,13 @@ export default function DeleteFile({ path, file , reloadFileList , setToast }) {
             let location = [...path];
             const { data } = await RdeleteFile({ location, fileName: file });
             const { message } = data;
-            setToast({
-                title: 'Delete File',
-                body: message,
-            });
+            toast.success(message);
             reloadFileList();
         } catch (error) {
             if (error?.response?.data?.message) {
-                setToast({
-                    title: 'Delete File',
-                    body: error.response.data.message,
-                });
+                toast.error(error.response.data.message);
             } else {
-                setToast({
-                    title: 'Delete File',
-                    body: 'Something is wrong!',
-                });
+                toast.error('Something is wrong!');
             }
         }
     }
@@ -41,22 +33,13 @@ export default function DeleteFile({ path, file , reloadFileList , setToast }) {
             location.push(file);
             const { data } = await RdeleteFolder({ location });
             const { message } = data;
-            setToast({
-                title: 'Delete Folder',
-                body: message,
-            });
+            toast.success(message);
             reloadFileList();
         } catch (error) {
             if (error?.response?.data?.message) {
-                setToast({
-                    title: 'Delete Folder',
-                    body: error.response.data.message,
-                });
+                toast.error(error.response.data.message);
             } else {
-                setToast({
-                    title: 'Delete Folder',
-                    body: 'Something is wrong!',
-                });
+                toast.error('Something is wrong!');
             }
         }
     }

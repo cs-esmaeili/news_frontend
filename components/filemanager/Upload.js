@@ -3,8 +3,9 @@ import { PiUploadBold } from 'react-icons/pi';
 import { saveFile as RsaveFile, } from '@/services/Filemanager';
 import { ProgressBar } from 'react-bootstrap';
 import { useRef, useState } from 'react';
+import toast from 'react-hot-toast';
 
-export default function UploadFile({ path, reloadFileList, setToast }) {
+export default function UploadFile({ path, reloadFileList }) {
 
     const [inputOpen, setInputOpen] = useState(false);
     const [persent, setPersent] = useState(0);
@@ -30,19 +31,13 @@ export default function UploadFile({ path, reloadFileList, setToast }) {
             const { message } = data;
             setInputOpen(false);
             reloadFileList();
-            setToast({ title: 'File Upload', body: message });
+            toast.success(message);
 
         } catch (error) {
             if (error?.response?.data?.message) {
-                setToast({
-                    title: 'File Upload',
-                    body: error.response.data.message,
-                });
+                toast.error(error.response.data.message);
             } else {
-                setToast({
-                    title: 'File Upload',
-                    body: 'Something is wrong!',
-                });
+                toast.error('Something is wrong!');
             }
         }
     }

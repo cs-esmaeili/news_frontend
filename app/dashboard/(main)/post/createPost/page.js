@@ -14,6 +14,7 @@ import VideoJS from '@/components/videoPlayer';
 import Cinput from '@/components/Cinput';
 import { createPost as RcreatePost } from '@/services/Post';
 import Image from 'next/image';
+import toast from 'react-hot-toast';
 
 export default function CreatePost() {
 
@@ -36,7 +37,7 @@ export default function CreatePost() {
             setContent(content);
             setBaseUrl(baseUrl);
             if (content.folders.length == 0 && content.files.length == 0) {
-                setError('مسیر خالی میباشد');
+                toast.error('Something is wrong!');
             }
         } catch (error) {
             console.log(error);

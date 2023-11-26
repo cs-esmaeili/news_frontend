@@ -5,7 +5,6 @@ import { Container, Row, Col, Spinner } from 'react-bootstrap';
 import { TfiReload } from "react-icons/tfi";
 import { useState, useEffect } from 'react';
 import { folderFileList as RfolderFileList } from '@/services/Filemanager';
-import ErrorToast from '@/components/toast';
 import Delete from '@/components/filemanager/Delete';
 import Upload from '@/components/filemanager/Upload';
 import Rename from '@/components/filemanager/Rename';
@@ -16,7 +15,6 @@ export default function FileManager({ selectedFile = null, fileTypes = null }) {
 
 
     const [path, setPath] = useState([]);
-    const [toast, setToast] = useState(null);
     const [content, setContent] = useState(null);
     const [baseUrl, setBaseUrl] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -60,7 +58,6 @@ export default function FileManager({ selectedFile = null, fileTypes = null }) {
 
     return (
         <Container className={styles.container} fluid >
-            <ErrorToast data={toast} updater={(value) => setToast(value)} />
             <Row className={styles.headerContainer}>
                 <Col className={styles.opetionContainer}>
                     <TfiReload className={`${styles.icons}`} onClick={() => {
@@ -70,10 +67,10 @@ export default function FileManager({ selectedFile = null, fileTypes = null }) {
                         setPath(prevItems => prevItems.slice(0, -1));
                     }} />
 
-                    <Delete path={path} file={file} reloadFileList={folderFileList}  setToast={setToast}/>
-                    <Upload path={path} reloadFileList={folderFileList} setToast={setToast} />
-                    <Rename path={path} file={file} reloadFileList={folderFileList} setToast={setToast} />
-                    <Folder path={path} reloadFileList={folderFileList}  setToast={setToast}/>
+                    <Delete path={path} file={file} reloadFileList={folderFileList} />
+                    <Upload path={path} reloadFileList={folderFileList} />
+                    <Rename path={path} file={file} reloadFileList={folderFileList} />
+                    <Folder path={path} reloadFileList={folderFileList} />
                 </Col>
                 <Col>
                     <span className={styles.floationPanelFirstRow}>

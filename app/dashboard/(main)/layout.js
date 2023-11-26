@@ -7,10 +7,9 @@ import { cModalContext } from '@/app/contexts/cModal';
 import { useState, useEffect } from 'react';
 import CModal from '@/components/modal';
 import Header from '@/components/Header';
-
+import { Toaster } from 'react-hot-toast';
 
 export default function Layout({ children }) {
-
 
   const [cModalStatus, setCmodalStatus] = useState({
     status: false,
@@ -71,6 +70,7 @@ export default function Layout({ children }) {
           <cModalContext.Provider value={{ cModalStatus, cModalUpdater }}>
             <CModal data={cModalStatus} updater={(value) => setCmodalStatus(value)} />
             <Sidebar setSmallMode={setShowContent} toggleSidebar={toggleSidebar} setToggleSidebar={setToggleSidebar} />
+            <Toaster position="top-right"/>
             {showContent == false ?
               <div className={`${styles.container} ${toggleSidebar ? styles.sideBarIsOpen : styles.sideBarIsClose} ${smallScreen ? styles.smallMode : null}`} >
                 <div className={styles.header}>

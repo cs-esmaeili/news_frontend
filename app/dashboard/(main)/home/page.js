@@ -1,47 +1,25 @@
 'use client'
-import { Container, Row } from 'react-bootstrap';
-import { Table, Col } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
+import Table from '@/components/Table';
 
 export default function Home() {
     return (
-        <Container fluid style={{ color: "white" }} >
+        <Container fluid>
             <Row>
                 <Col>
-                    salam
-                </Col>
-                <Col>
-                    <Table responsive>
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                {Array.from({ length: 12 }).map((_, index) => (
-                                    <th key={index}>Table heading</th>
-                                ))}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                {Array.from({ length: 12 }).map((_, index) => (
-                                    <td key={index}>Table cell {index}</td>
-                                ))}
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                {Array.from({ length: 12 }).map((_, index) => (
-                                    <td key={index}>Table cell {index}</td>
-                                ))}
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                {Array.from({ length: 12 }).map((_, index) => (
-                                    <td key={index}>Table cell {index}</td>
-                                ))}
-                            </tr>
-                        </tbody>
-                    </Table>
-                </Col>
 
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <Table headers={['count', 'head 1', 'head 2', 'head 3']} rows={
+                        [
+                            ['content 1', 'content 2', 'content 3'],
+                            ['content 1', 'content 2', 'content 3'],
+                            ['content 1', 'content 2', 'content 3'],
+                        ]
+                    } />
+                </Col>
             </Row>
         </Container>
 

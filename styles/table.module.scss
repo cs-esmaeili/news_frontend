@@ -1,0 +1,22 @@
+@import 'variables.scss';
+
+.table {
+  padding: 0;
+
+  .row {
+    display: flex;
+    background-color: $sidebar_color;
+    margin-bottom: 10px;
+    border-radius: 30px;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+  }
+}

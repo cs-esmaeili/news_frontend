@@ -2,8 +2,9 @@ import styles from '@/styles/filemanager.module.scss';
 import { useState } from 'react';
 import { createFolder as RcreateFolder } from '@/services/Filemanager';
 import { BiSolidFolderPlus } from 'react-icons/bi';
+import toast from 'react-hot-toast';
 
-export default function Folder({ path, reloadFileList , setToast }) {
+export default function Folder({ path, reloadFileList }) {
 
 
     const [inputOpen, setInputOpen] = useState(false);
@@ -12,23 +13,13 @@ export default function Folder({ path, reloadFileList , setToast }) {
         try {
             const { data } = await RcreateFolder({ location: path, folderName });
             const { message } = data;
-            setToast({
-                title: 'create Folder',
-                body: message,
-            });
+            toast.success(message);
             reloadFileList();
         } catch (error) {
-            console.log(error);
             if (error?.response?.data?.message) {
-                setToast({
-                    title: 'create Folder',
-                    body: error.response.data.message,
-                });
+                toast.error(error.response.data.message);
             } else {
-                setToast({
-                    title: 'create Folder',
-                    body: 'Something is wrong!',
-                });
+                toast.error('Something is wrong!');
             }
         }
     }
@@ -42,7 +33,7 @@ export default function Folder({ path, reloadFileList , setToast }) {
                     if (e.key === 'Enter') {
                         createFolder(e.target.value);
                         setInputOpen(false);
-                        e.target.value="";
+                        e.target.value = "";
                     }
                 }} />
             </span>
