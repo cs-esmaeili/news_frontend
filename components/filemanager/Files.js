@@ -28,19 +28,18 @@ export default function Files({ files, baseUrl, file, setFile, setPath, selected
 
     const fileIcon = (tempfile) => {
         if (isImageFileName(tempfile)) {
-            return (<BsImageFill size={"5rem"} className={styles.image} />);
+            return (<BsImageFill size={"3.5rem"} className={styles.image} />);
         } else if (isVideoFileName(tempfile)) {
-            return (<AiTwotoneVideoCamera size={"5rem"} className={styles.video} />);
+            return (<AiTwotoneVideoCamera size={"3.5rem"} className={styles.video} />);
         } else {
-            return (<BsFileEarmarkFill size={"5rem"} className={styles.file} />);
+            return (<BsFileEarmarkFill size={"3.5rem"} className={styles.file} />);
         }
     }
 
     const Folders = (folder, index) => {
         return (
-            <Col key={index} xl={1} lg={2} md={3} sm={3} xs={3} className={`${styles.file} ${(file == folder) ? styles.fileActive : null}`}
+            <Col key={index} xl={(selectedFile) ? 2 : 1} lg={(selectedFile) ? 2 : 1} md={2} sm={3} className={`${styles.file} ${(file == folder) ? styles.fileActive : null}`}
                 onClick={() => {
-
                     setFile(folder);
                 }}
                 onDoubleClick={() => {
@@ -48,7 +47,7 @@ export default function Files({ files, baseUrl, file, setFile, setPath, selected
                 }}
             >
                 <div>
-                    <PiFolderFill size={"5rem"} className={styles.folder} />
+                    <PiFolderFill size={"3.5rem"} className={styles.folder} />
                 </div>
                 <span className={styles.fileName}>
                     {folder}
@@ -59,7 +58,7 @@ export default function Files({ files, baseUrl, file, setFile, setPath, selected
 
     const Files = (tempfile, index) => {
         return (
-            <Col key={index} xl={1} lg={2} md={3} sm={3}  xs={3} className={`${styles.file} ${(file == tempfile) ? styles.fileActive : null}`}
+            <Col key={index} xl={(selectedFile) ? 2 : 1} lg={(selectedFile) ? 2 : 1} md={2} sm={3} className={`${styles.file} ${(file == tempfile) ? styles.fileActive : null}`}
                 onClick={() => {
                     setFile(tempfile);
                 }}
@@ -108,7 +107,7 @@ export default function Files({ files, baseUrl, file, setFile, setPath, selected
                     {fileIcon(tempfile)}
                 </div>
                 <span className={styles.fileName}>
-                    {tempfile}
+                    {tempfile.substring(tempfile.length - 10, tempfile.length)}
                 </span>
             </Col>
         );

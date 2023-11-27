@@ -51,12 +51,15 @@ ul {
 }
 
 .modalBody {
-  // width: max-content;
+  max-height: 80vh;
+  height: 80vh;
+  overflow: hidden;
 }
 
 .modalChangeSize {
   width: max-content;
   max-width: 90vw;
+
 }
 
 .modal .modal-content {
