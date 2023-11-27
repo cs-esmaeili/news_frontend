@@ -1,0 +1,21 @@
+@import 'variables.scss';
+
+.container {
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.link {
+  background-color: transparent;
+  border-color: $sidebar_color;
+  color: white;
+  border-width: 2px;
+
+
+  &.active{
+    border-color: $sidebar_color;
+    background-color: $accent_color;
+  }
+}
+

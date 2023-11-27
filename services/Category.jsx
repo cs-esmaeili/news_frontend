@@ -6,3 +6,6 @@ const prefixUrl = `${config.api}category`
 export const createCategory = (data) => {
     return http.post(`${prefixUrl}/createCategory`, JSON.stringify(data));
 };
+export const categoryList = (data) => {
+    return http.post(`${prefixUrl}/categoryList`, JSON.stringify(data));
+};

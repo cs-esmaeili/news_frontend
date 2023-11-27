@@ -1,5 +1,6 @@
 import styles from '@/styles/table.module.scss';
 import { Container, Row, Col } from 'react-bootstrap';
+import Pagination from '@/components/PaginationLayout';
 
 export default function Table({ headers, rows }) {
     return (
@@ -21,6 +22,7 @@ export default function Table({ headers, rows }) {
                     ))}
                 </Row>
             ))}
+            <Pagination />
         </Container>
     )
 }

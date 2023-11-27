@@ -49,6 +49,7 @@ export default function FileManager({ selectedFile = null, fileTypes = null }) {
     useEffect(() => {
         folderFileList();
     }, [path]);
+    
     useEffect(() => {
         if (selectedFile != null && file != null && file.includes('.')) {
             selectedFile(baseUrl + file);

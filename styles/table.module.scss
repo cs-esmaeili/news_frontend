@@ -1,7 +1,8 @@
 @import 'variables.scss';
 
 .table {
-  padding: 0;
+  overflow-y: scroll;
+  overflow-x: hidden;
 
   .row {
     display: flex;
