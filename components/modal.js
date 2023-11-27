@@ -3,7 +3,7 @@ import { Button, Modal } from 'react-bootstrap';
 
 function CModal({ data, updater }) {
 
-    const { status, title, body, footer = null } = data;
+    const { status, title, body, footer = null, fullSize } = data;
     return (
         <Modal
             size="sm"
@@ -20,7 +20,7 @@ function CModal({ data, updater }) {
                     {title}
                 </Modal.Title>
             </Modal.Header>
-            <Modal.Body className="modalBody">
+            <Modal.Body className={fullSize ? "modalBodyFullSize" : "modalBody"} >
                 {body}
             </Modal.Body>
             <Modal.Footer>

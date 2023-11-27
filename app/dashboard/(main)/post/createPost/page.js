@@ -60,6 +60,7 @@ export default function CreatePost() {
         cModalUpdater({
             status: true,
             title: null,
+            fullSize: true,
             body: <Filemanager selectedFile={(file) => {
                 let temp = [...content];
                 temp[parentIndex][childIndex].type = type;

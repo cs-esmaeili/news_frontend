@@ -1,7 +1,7 @@
 import http from "./httpServices";
 import config from "../config.json";
 
-const prefixUrl = `${config.api_admin}file`
+const prefixUrl = `${config.api}file`
 
 export const folderFileList = (data) => {
     return http.post(`${prefixUrl}/folderFileList`, JSON.stringify(data));
