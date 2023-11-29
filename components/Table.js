@@ -1,7 +1,7 @@
 import styles from '@/styles/table.module.scss';
 import { Table as BTable } from 'react-bootstrap';
 
-export default function Table({ headers, rows }) {
+export default function Table({ headers, rows  , special}) {
     return (
         <BTable responsive borderless hover striped variant="dark" className={styles.striped}>
             <thead>
@@ -23,6 +23,7 @@ export default function Table({ headers, rows }) {
                                 {value}
                             </td>
                         ))}
+                        {special(contentParent)}
                     </tr>
                 ))}
             </tbody>

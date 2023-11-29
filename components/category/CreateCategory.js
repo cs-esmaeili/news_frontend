@@ -7,7 +7,7 @@ import { Row, Col, Button } from 'react-bootstrap';
 import { createCategory as RcreateCategory } from '@/services/Category';
 import toast from 'react-hot-toast';
 
-export default function CreateCategory() {
+export default function CreateCategory({ categoryList }) {
 
     const [image, setImage] = useState(null);
     const [name, setName] = useState("");
@@ -32,6 +32,7 @@ export default function CreateCategory() {
             toast.success(message);
             setImage(null);
             setName("");
+            categoryList();
         } catch (error) {
             if (error?.response?.data?.message) {
                 toast.error(error.response.data.message);

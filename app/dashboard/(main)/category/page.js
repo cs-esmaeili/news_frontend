@@ -1,10 +1,13 @@
 'use client'
 import { useState, useEffect } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
+import { BiSolidEdit } from 'react-icons/bi';
 import styles from '@/styles/category.module.scss';
 import CreateCategory from '@/components/category/CreateCategory';
 import PaginationLayout from '@/components/PaginationLayout';
+import Delete from '@/components/category/Delete';
 import { categoryList as RcategoryList } from '@/services/Category';
+
 import Table from '@/components/Table';
 import toast from 'react-hot-toast';
 
@@ -41,15 +44,26 @@ export default function Category() {
 
     return (
         <Container fluid className={styles.container}>
-            <CreateCategory />
-                {categorys != null ?
-                    <Table
-                        headers={['Id', 'Name', 'UpdatedAt',]}
-                        rows={categorys} />
-                    :
-                    null
-                }
-            <PaginationLayout page={page} perPage={perPage} count={categorysCount} setPage={(value) => {setPage(value); console.log(value)}} />
+            <CreateCategory categoryList={categoryList} />
+            {categorys != null ?
+                <Table
+                    headers={['Id', 'Name', 'UpdatedAt', "Actions"]}
+                    rows={categorys}
+                    special={(row) => {
+                        return (
+                            <td className={styles.col} style={{ display: "flex" }}>
+                                <Delete row={row} categoryList={categoryList} />
+                                <BiSolidEdit className={`${styles.icons} ${styles.blue}`} onClick={() => {
+                                    console.log(row);
+                                }} />
+                            </td>
+                        )
+                    }}
+                />
+                :
+                null
+            }
+            <PaginationLayout page={page} perPage={perPage} count={categorysCount} setPage={(value) => { setPage(value); console.log(value) }} />
 
         </Container>
 

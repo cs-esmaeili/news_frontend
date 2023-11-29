@@ -9,3 +9,6 @@ export const createCategory = (data) => {
 export const categoryList = (data) => {
     return http.post(`${prefixUrl}/categoryList`, JSON.stringify(data));
 };
+export const deleteCategory = (data) => {
+    return http.post(`${prefixUrl}/deleteCategory`, JSON.stringify(data));
+};
