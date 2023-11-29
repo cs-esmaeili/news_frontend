@@ -7,15 +7,15 @@
 }
 
 .link {
-  background-color: transparent;
-  border-color: $sidebar_color;
-  color: white;
-  border-width: 2px;
+  background-color: transparent !important;
+  border-color: $sidebar_color !important;
+  color: white !important;
+  border-width: 2px !important;
 
 
   &.active{
-    border-color: $sidebar_color;
-    background-color: $accent_color;
+    border-color: $sidebar_color !important;
+    background-color: $accent_color !important;
   }
 }
 

@@ -1,28 +1,31 @@
 import styles from '@/styles/table.module.scss';
-import { Container, Row, Col } from 'react-bootstrap';
-import Pagination from '@/components/PaginationLayout';
+import { Table as BTable } from 'react-bootstrap';
 
 export default function Table({ headers, rows }) {
     return (
-        <Container fluid className={styles.table}>
-            <Row className={styles.row}>
-                {headers.map((content, index) => (
-                    <Col key={index} className={styles.col}>
-                        {content}
-                    </Col>
-                ))}
-            </Row>
-            {rows.map((contentParent, indexParent) => (
-                <Row key={indexParent} className={styles.row}>
-                    <Col className={styles.col}>{indexParent}</Col>
-                    {contentParent.map((contentChild, indexChild) => (
-                        <Col key={indexChild} className={styles.col}>
-                            {contentChild}
-                        </Col>
+        <BTable responsive borderless hover striped variant="dark" className={styles.striped}>
+            <thead>
+                <tr>
+                    <th>Row</th>
+                    {headers.map((content, index) => (
+                        <th key={index} className={styles.col}>
+                            {content}
+                        </th>
                     ))}
-                </Row>
-            ))}
-            <Pagination />
-        </Container>
+                </tr>
+            </thead>
+            <tbody>
+                {rows.map((contentParent, indexParent) => (
+                    <tr key={indexParent} className={styles.row}>
+                        <td className={styles.col}>{indexParent + 1}</td>
+                        {Object.entries(contentParent).map(([key, value], indexChild) => (
+                            <td key={indexChild} className={styles.col}>
+                                {value}
+                            </td>
+                        ))}
+                    </tr>
+                ))}
+            </tbody>
+        </BTable>
     )
 }
