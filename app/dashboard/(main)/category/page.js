@@ -1,13 +1,12 @@
 'use client'
 import { useState, useEffect } from 'react';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import { BiSolidEdit } from 'react-icons/bi';
 import styles from '@/styles/category.module.scss';
-import CreateCategory from '@/components/category/CreateCategory';
+import Create from '@/components/category/Create';
 import PaginationLayout from '@/components/PaginationLayout';
 import Delete from '@/components/category/Delete';
 import { categoryList as RcategoryList } from '@/services/Category';
-
 import Table from '@/components/Table';
 import toast from 'react-hot-toast';
 
@@ -19,6 +18,8 @@ export default function Category() {
     const [categorysCount, setCategorysCount] = useState(null);
     const [page, setPage] = useState(1);
     const [perPage, setPerPage] = useState(5);
+
+    const [updateData, setUpdateData] = useState(null);
 
 
 
@@ -42,19 +43,24 @@ export default function Category() {
         categoryList();
     }, [page]);
 
+    useEffect(() => {
+        console.log(updateData);
+    }, [updateData]);
+
     return (
         <Container fluid className={styles.container}>
-            <CreateCategory categoryList={categoryList} />
+            <Create categoryList={categoryList} updateData={updateData} setUpdateData={(value) => setUpdateData(value)} />
             {categorys != null ?
                 <Table
                     headers={['Id', 'Name', 'UpdatedAt', "Actions"]}
+                    allowHeaders={['_id', 'name', 'updatedAt']}
                     rows={categorys}
                     special={(row) => {
                         return (
                             <td className={styles.col} style={{ display: "flex" }}>
                                 <Delete row={row} categoryList={categoryList} />
                                 <BiSolidEdit className={`${styles.icons} ${styles.blue}`} onClick={() => {
-                                    console.log(row);
+                                    setUpdateData(row);
                                 }} />
                             </td>
                         )
