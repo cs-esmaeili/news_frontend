@@ -9,6 +9,7 @@ import { BsImageFill } from 'react-icons/bs';
 import styles from '@/styles/createPost.module.scss';
 import { useState, useEffect, useContext, useRef } from 'react';
 import Filemanager from '../../filemanager/page';
+import Category from '../../category/page';
 import { cModalContext } from '@/app/contexts/cModal';
 import VideoJS from '@/components/videoPlayer';
 import Cinput from '@/components/Cinput';
@@ -29,6 +30,7 @@ export default function CreatePost() {
             // [{ type: "text", content: "this is text 5" }]
         ]
     );
+    const [category, setCategory] = useState(null);
 
     const createPost = async () => {
         try {
@@ -71,6 +73,14 @@ export default function CreatePost() {
                 temp[parentIndex][childIndex].content = file;
                 setContent(temp);
             }} fileTypes={type} />
+        });
+    }
+    const openCategoryPicker = () => {
+        cModalUpdater({
+            status: true,
+            title: null,
+            fullSize: false,
+            body: <Category pickMode selectedCategory={(value) => setCategory(value)} />
         });
     }
     const card = (index, header, body, activeType) => {
@@ -131,8 +141,8 @@ export default function CreatePost() {
                 </Col>
                 <Col>
                     <Button variant="success" className={styles.categoryButton} onClick={() => {
-
-                    }}> Pick Category</Button>
+                        openCategoryPicker();
+                    }}>{category != null ? category.name : "Pick Category"}</Button>
                 </Col>
             </Row>
             <Row>

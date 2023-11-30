@@ -11,7 +11,7 @@ import Table from '@/components/Table';
 import toast from 'react-hot-toast';
 
 
-export default function Category() {
+export default function Category({ pickMode , selectedCategory }) {
 
 
     const [categorys, setCategorys] = useState(null);
@@ -49,12 +49,18 @@ export default function Category() {
 
     return (
         <Container fluid className={styles.container}>
-            <Create categoryList={categoryList} updateData={updateData} setUpdateData={(value) => setUpdateData(value)} />
+            {pickMode ?
+                null
+                :
+                <Create categoryList={categoryList} updateData={updateData} setUpdateData={(value) => setUpdateData(value)} />
+            }
             {categorys != null ?
                 <Table
                     headers={['Id', 'Name', 'UpdatedAt', "Actions"]}
                     allowHeaders={['_id', 'name', 'updatedAt']}
                     rows={categorys}
+                    selectMode={pickMode}
+                    selectedRow={(row) => selectedCategory(row)}
                     special={(row) => {
                         return (
                             <td className={styles.col} style={{ display: "flex" }}>
