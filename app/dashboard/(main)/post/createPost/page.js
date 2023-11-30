@@ -20,7 +20,7 @@ export default function CreatePost() {
 
     const { cModalStatus, cModalUpdater } = useContext(cModalContext);
 
-
+    const prevCountRef = useRef();
     const scrollContainerRef = useRef(null);
     const [content, setContent] = useState(
         [
@@ -53,7 +53,11 @@ export default function CreatePost() {
 
 
     useEffect(() => {
-        scrollContainerRef.current.scrollTop = scrollContainerRef.current.scrollHeight;
+        const prevCount = prevCountRef.current;
+        if (prevCount < content.length) {
+            scrollContainerRef.current.scrollTop = scrollContainerRef.current.scrollHeight;
+        }
+        prevCountRef.current = content.length;
     }, [content]);
 
     const openFilePicker = (parentIndex, childIndex, type) => {
@@ -126,7 +130,9 @@ export default function CreatePost() {
                     <Cinput placeholder="Discription" icon={<BsImageFill className={styles.searchBarIcon} />} />
                 </Col>
                 <Col>
-                    <Cinput placeholder="something" icon={<BsImageFill className={styles.searchBarIcon} />} />
+                    <Button variant="success" className={styles.categoryButton} onClick={() => {
+
+                    }}> Pick Category</Button>
                 </Col>
             </Row>
             <Row>
