@@ -80,7 +80,15 @@ export default function CreatePost() {
             status: true,
             title: null,
             fullSize: false,
-            body: <Category pickMode selectedCategory={(value) => setCategory(value)} />
+            body: <Category pickMode selectedCategory={(value) => {
+                setCategory(value);
+                cModalUpdater({
+                    status: false,
+                    title: null,
+                    fullSize: false,
+                    body: null
+                });
+            }} />
         });
     }
     const card = (index, header, body, activeType) => {
