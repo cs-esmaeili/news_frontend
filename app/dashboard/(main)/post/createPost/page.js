@@ -23,33 +23,23 @@ export default function CreatePost() {
 
     const prevCountRef = useRef();
     const scrollContainerRef = useRef(null);
-    const [content, setContent] = useState(
-        [
-            // [{ type: "text", content: "this is text 1" }, { type: "image", content: "this is text 2" }],
-            // [{ type: "text", content: "this is text 3" }, { type: "text", content: "this is text 4" }],
-            // [{ type: "text", content: "this is text 5" }]
-        ]
-    );
+    const [content, setContent] = useState([]);
     const [category, setCategory] = useState(null);
+    const [title, setTitle] = useState(null);
+    const [disc, setDisc] = useState(null);
 
     const createPost = async () => {
         try {
-            const { data } = await RcreatePost({});
-            const { content, baseUrl } = data;
-            setContent(content);
-            setBaseUrl(baseUrl);
-            if (content.folders.length == 0 && content.files.length == 0) {
-                toast.error('Something is wrong!');
-            }
+            const { data } = await RcreatePost({ title, disc, category_id: category._id, body: content });
+            const { message } = data;
+            toast.success(message);
         } catch (error) {
             console.log(error);
             if (error?.response?.data?.message) {
-                setError(error.response.data.message);
+                toast.error(error.response.data.message);
             } else {
-                setError('Something is wrong!');
+                toast.error('Something is wrong!');
             }
-        } finally {
-            setLoading(false);
         }
     }
 
@@ -118,7 +108,6 @@ export default function CreatePost() {
                             temp[parentIndex][childIndex].type = "video";
                             temp[parentIndex][childIndex].content = "";
                             setContent(temp);
-
                         }} />
 
                         <RiCloseFill className={`${styles.icon} ${styles.red}`} onClick={() => {
@@ -142,10 +131,10 @@ export default function CreatePost() {
         <Container fluid className={styles.container} ref={scrollContainerRef}>
             <Row className={styles.globalInformation}>
                 <Col>
-                    <Cinput placeholder="Title" icon={<BsImageFill className={styles.searchBarIcon} />} />
+                    <Cinput placeholder="Title" onChange={(value) => setTitle(value)} value={title} icon={<BsImageFill className={styles.searchBarIcon} />} />
                 </Col>
                 <Col>
-                    <Cinput placeholder="Discription" icon={<BsImageFill className={styles.searchBarIcon} />} />
+                    <Cinput placeholder="Discription" onChange={(value) => setDisc(value)} value={disc} icon={<BsImageFill className={styles.searchBarIcon} />} />
                 </Col>
                 <Col>
                     <Button variant="success" className={styles.categoryButton} onClick={() => {
@@ -165,7 +154,11 @@ export default function CreatePost() {
                                     You can set your post text in this section...
                                 </div>
                             </>,
-                            <textarea type="text" className={styles.textInput} />,
+                            <textarea type="text" className={styles.textInput} onChange={(e) => {
+                                let temp = [...content];
+                                temp[parentIndex][childIndex].content = e.target.value;
+                                setContent(temp);
+                            }} />,
                             "text"
                         ) : null}
                         {ChildContent.type == "image" ? card({ parentIndex, childIndex },
@@ -244,7 +237,7 @@ export default function CreatePost() {
                     setContent([]);
                 }}>Delete</Button>
                 <Button variant="success" className={styles.cbutton} onClick={() => {
-
+                    createPost();
                 }}>Submit</Button>
             </div>
         </Container>

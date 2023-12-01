@@ -34,11 +34,14 @@ export default function UploadFile({ path, reloadFileList }) {
             toast.success(message);
 
         } catch (error) {
+            console.log(error);
             if (error?.response?.data?.message) {
                 toast.error(error.response.data.message);
             } else {
                 toast.error('Something is wrong!');
             }
+            setPersent(0);
+            setInputOpen(false);
         }
     }
 
