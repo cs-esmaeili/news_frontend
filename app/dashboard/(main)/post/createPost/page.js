@@ -13,11 +13,12 @@ import Category from '../../category/page';
 import { cModalContext } from '@/app/contexts/cModal';
 import VideoJS from '@/components/videoPlayer';
 import Cinput from '@/components/Cinput';
-import { createPost as RcreatePost } from '@/services/Post';
+import { createPost as RcreatePost, updatePost as RupdatePost } from '@/services/Post';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
+import { logIn } from "@/services/Authorization";
 
-export default function CreatePost() {
+export default function CreatePost({ editMode = false, data  , closeModal}) {
 
     const { cModalStatus, cModalUpdater } = useContext(cModalContext);
 
@@ -33,6 +34,23 @@ export default function CreatePost() {
             const { data } = await RcreatePost({ title, disc, category_id: category._id, body: content });
             const { message } = data;
             toast.success(message);
+            resetForm();
+        } catch (error) {
+            console.log(error);
+            if (error?.response?.data?.message) {
+                toast.error(error.response.data.message);
+            } else {
+                toast.error('Something is wrong!');
+            }
+        }
+    }
+    const updatePost = async (post_id) => {
+        try {
+            const { data } = await RupdatePost({ post_id, title, disc, category_id: category._id, body: content });
+            const { message } = data;
+            toast.success(message);
+            resetForm();
+            closeModal();
         } catch (error) {
             console.log(error);
             if (error?.response?.data?.message) {
@@ -43,6 +61,12 @@ export default function CreatePost() {
         }
     }
 
+    const resetForm = () => {
+        setContent([]);
+        setCategory(null);
+        setTitle(null);
+        setDisc(null);
+    }
 
     useEffect(() => {
         const prevCount = prevCountRef.current;
@@ -50,6 +74,14 @@ export default function CreatePost() {
             scrollContainerRef.current.scrollTop = scrollContainerRef.current.scrollHeight;
         }
         prevCountRef.current = content.length;
+
+        if (editMode && data != null) {
+            console.log(data);
+            setContent(data.body);
+            setCategory(data.category_id);
+            setTitle(data.title);
+            setDisc(data.disc);
+        }
     }, [content]);
 
     const openFilePicker = (parentIndex, childIndex, type) => {
@@ -150,11 +182,11 @@ export default function CreatePost() {
                                 <div>
                                     Text Field
                                 </div>
-                                <div className={styles.headerDisc}>
+                                <div >
                                     You can set your post text in this section...
                                 </div>
                             </>,
-                            <textarea type="text" className={styles.textInput} onChange={(e) => {
+                            <textarea type="text" className={styles.textInput} value={content[parentIndex][childIndex].content} onChange={(e) => {
                                 let temp = [...content];
                                 temp[parentIndex][childIndex].content = e.target.value;
                                 setContent(temp);
@@ -220,24 +252,30 @@ export default function CreatePost() {
                 ))}
 
             </Row>
-            <div className={styles.newRow}>
-                <PiRectangleBold className={styles.icon} onClick={() => {
-                    let temp = [...content];
-                    temp.push([{ type: "text", content: "" }]);
-                    setContent(temp);
-                }} />
-                <VscLayoutSidebarLeft className={styles.icon} onClick={() => {
-                    let temp = [...content];
-                    temp.push([{ type: "text", content: "" }, { type: "text", content: "" }]);
-                    setContent(temp);
-                }} />
-            </div>
+            {editMode == false ?
+                <div className={styles.newRow}>
+                    <PiRectangleBold className={styles.icon} onClick={() => {
+                        let temp = [...content];
+                        temp.push([{ type: "text", content: "" }]);
+                        setContent(temp);
+                    }} />
+                    <VscLayoutSidebarLeft className={styles.icon} onClick={() => {
+                        let temp = [...content];
+                        temp.push([{ type: "text", content: "" }, { type: "text", content: "" }]);
+                        setContent(temp);
+                    }} />
+                </div>
+                : null}
             <div className={styles.submitRow}>
                 <Button variant="outline-danger" className={styles.cbutton} onClick={() => {
                     setContent([]);
                 }}>Delete</Button>
                 <Button variant="success" className={styles.cbutton} onClick={() => {
-                    createPost();
+                    if (editMode) {
+                        updatePost(data._id);
+                    } else {
+                        createPost();
+                    }
                 }}>Submit</Button>
             </div>
         </Container>
