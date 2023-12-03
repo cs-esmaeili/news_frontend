@@ -6,9 +6,10 @@ import Delete from '@/components/post/Delete';
 import Update from '@/components/post/Update';
 import { postList as RpostList } from '@/services/Post';
 import PaginationLayout from '@/components/PaginationLayout';
-import { Container } from 'react-bootstrap';
+import { Container, Row } from 'react-bootstrap';
 import Table from '@/components/Table';
 import toast from 'react-hot-toast';
+import CreatePost from '@/app/dashboard/(main)/post/createPost/page';
 
 
 export default function postList() {
@@ -16,7 +17,8 @@ export default function postList() {
     const [posts, setPosts] = useState(null);
     const [postsCount, setPostsCount] = useState(null);
     const [page, setPage] = useState(1);
-    const [perPage, setPerPage] = useState(10);
+    const [perPage, setPerPage] = useState(5);
+    const [row, setRow] = useState(null);
 
     const categoryList = async () => {
         try {
@@ -44,27 +46,35 @@ export default function postList() {
     } else {
         return (
             <Container fluid className={styles.container}>
-                <div>
-                    Text Field
-                </div>
-                <div className={styles.headerDisc}>
-                    You can set your post text in this section...
-                </div>
-                <Table
-                    headers={['Id', 'Title', 'UpdatedAt', "Actions"]}
-                    allowHeaders={['_id', 'title', 'updatedAt']}
-                    rows={posts}
-                    selectMode={false}
-                    special={(row) => {
-                        return (
-                            <td className={styles.col} style={{ display: "flex" }}>
-                                <Delete row={row} categoryList={categoryList} />
-                                <Update row={row} categoryList={categoryList} />
-                            </td>
-                        )
-                    }}
-                />
-                <PaginationLayout page={page} perPage={perPage} count={postsCount} setPage={(value) => { setPage(value) }} />
+                <Row className={styles.postListContainer}>
+                    <div>
+                        Text Field
+                    </div>
+                    <div className={styles.headerDisc}>
+                        You can set your post text in this section...
+                    </div>
+                    <Table
+                        headers={['Id', 'Title', 'UpdatedAt', "Actions"]}
+                        allowHeaders={['_id', 'title', 'updatedAt']}
+                        rows={posts}
+                        selectMode={true}
+                        selectedRow={(row) => { setRow(row); }}
+                        special={(row) => {
+                            return (
+                                <td className={styles.col} style={{ display: "flex" }}>
+                                    <Delete row={row} categoryList={categoryList} />
+                                </td>
+                            )
+                        }}
+                    />
+                    <PaginationLayout page={page} perPage={perPage} count={postsCount} setPage={(value) => { setPage(value) }} />
+                </Row>
+                <Row className={styles.postDataList}>
+                    {row ?
+                        <CreatePost editMode data={row} upDateDone={() => { setRow(null); categoryList(); }} />
+                        :
+                        null}
+                </Row>
             </Container>
         )
     }

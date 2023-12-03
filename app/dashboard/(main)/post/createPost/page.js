@@ -16,9 +16,8 @@ import Cinput from '@/components/Cinput';
 import { createPost as RcreatePost, updatePost as RupdatePost } from '@/services/Post';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
-import { logIn } from "@/services/Authorization";
 
-export default function CreatePost({ editMode = false, data  , closeModal}) {
+export default function CreatePost({ editMode = false, data, upDateDone }) {
 
     const { cModalStatus, cModalUpdater } = useContext(cModalContext);
 
@@ -50,7 +49,7 @@ export default function CreatePost({ editMode = false, data  , closeModal}) {
             const { message } = data;
             toast.success(message);
             resetForm();
-            closeModal();
+            upDateDone();
         } catch (error) {
             console.log(error);
             if (error?.response?.data?.message) {
@@ -76,13 +75,12 @@ export default function CreatePost({ editMode = false, data  , closeModal}) {
         prevCountRef.current = content.length;
 
         if (editMode && data != null) {
-            console.log(data);
             setContent(data.body);
             setCategory(data.category_id);
             setTitle(data.title);
             setDisc(data.disc);
         }
-    }, [content]);
+    }, [content, data]);
 
     const openFilePicker = (parentIndex, childIndex, type) => {
         cModalUpdater({
@@ -268,15 +266,19 @@ export default function CreatePost({ editMode = false, data  , closeModal}) {
                 : null}
             <div className={styles.submitRow}>
                 <Button variant="outline-danger" className={styles.cbutton} onClick={() => {
-                    setContent([]);
-                }}>Delete</Button>
+                    if (editMode) {
+                        upDateDone();
+                    } else {
+                        setContent([]);
+                    }
+                }}>{(editMode) ? "Close" : "Delete"}</Button>
                 <Button variant="success" className={styles.cbutton} onClick={() => {
                     if (editMode) {
                         updatePost(data._id);
                     } else {
                         createPost();
                     }
-                }}>Submit</Button>
+                }}>{(editMode) ? "Done" : "Submit"}</Button>
             </div>
         </Container>
     )

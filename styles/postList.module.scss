@@ -1,8 +1,15 @@
 @import 'variables.scss';
 
 .container{
-  color: white;
   background-color: $sidebar_color;
+  overflow-y: scroll;
+}
+.postListContainer{
+  color: white;
   padding: 20px;
+  background-color: $sidebar_color;
   border-radius: 30px;
+}
+.postDataList{
+  background-color: $sidebar_color;
 }
