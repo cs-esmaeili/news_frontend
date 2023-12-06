@@ -1,0 +1,108 @@
+@import 'variables.scss';
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px
+);
+
+.container {
+  color: white;
+  height: 100%;
+  flex-grow: 1;
+}
+
+.row {
+  height: 100%;
+  padding-bottom: 5px;
+}
+
+.permissionList {
+  height: 100%;
+  margin-left: 5px;
+  margin-right: 5px;
+
+  @media (max-width: map-get($grid-breakpoints , lg)) {
+    height: 50%;
+    margin: 0px;
+    margin-bottom: 5px;
+    margin-right: 10px;
+  }
+
+  border-radius: 20px;
+  padding: 20px;
+  background-color: $sidebar_color;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow-y: hidden;
+}
+
+.permissionContainer {
+  border-radius: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  background-color: $background_color;
+}
+
+.permissionName {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.detailsContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.ListDisc {
+  margin-bottom: 15px;
+}
+
+.permissionButtonList {
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.customButton {
+  padding: 10px;
+  border-radius: 50%;
+  background-color: $sidebar_color;
+  border-color: transparent;
+
+  &.active {
+    background-color: $accent_color;
+  }
+}
+
+.roleButton {
+  background-color: $background_color;
+  padding: 10px;
+  width: 100%;
+
+  &:hover {
+    background-color: $accent_color;
+  }
+
+  &:active {
+    background-color: $accent_color !important;
+  }
+
+
+  --bs-btn-color: #fff !important;
+  --bs-btn-border-color: none !important;
+  margin-bottom: 10px;
+}
+
+.swapItemsCol {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
