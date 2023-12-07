@@ -70,7 +70,7 @@ export default function Layout({ children }) {
           <cModalContext.Provider value={{ cModalStatus, cModalUpdater }}>
             <CModal data={cModalStatus} updater={(value) => setCmodalStatus(value)} />
             <Sidebar setSmallMode={setShowContent} toggleSidebar={toggleSidebar} setToggleSidebar={setToggleSidebar} />
-            <Toaster position="top-right"/>
+            <Toaster position="top-center" />
             {showContent == false ?
               <div className={`${styles.container} ${toggleSidebar ? styles.sideBarIsOpen : styles.sideBarIsClose} ${smallScreen ? styles.smallMode : null}`} >
                 <div className={styles.header}>
