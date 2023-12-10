@@ -25,8 +25,8 @@ export default function CreatePost({ editMode = false, data, upDateDone }) {
     const scrollContainerRef = useRef(null);
     const [content, setContent] = useState([]);
     const [category, setCategory] = useState(null);
-    const [title, setTitle] = useState(null);
-    const [disc, setDisc] = useState(null);
+    const [title, setTitle] = useState("");
+    const [disc, setDisc] = useState("");
 
     const createPost = async () => {
         try {

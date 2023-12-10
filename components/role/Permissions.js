@@ -32,7 +32,7 @@ export default function Permissions({ allPermissions, currentRole, setUpdateList
                     let active = false;
                     const { permissions } = currentRole;
                     for (let i = 0; i < permissions.length; i++) {
-                        if (allPermissions[index]._id == permissions[i]._id) {
+                        if (allPermissions[index]._id == permissions[i]) {
                             active = true;
                             break;
                         }
