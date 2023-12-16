@@ -110,7 +110,8 @@ $grid-breakpoints: (
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  padding-left: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
   flex-grow: 1;
 }
 
