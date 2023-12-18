@@ -4,8 +4,9 @@ import styles from '@/styles/createUser.module.scss';
 import { Container, Row, Col } from 'react-bootstrap';
 import { BsImageFill } from 'react-icons/bs';
 import Cinput from '@/components/Cinput';
-import "react-modern-calendar-datepicker/lib/DatePicker.css";
-import { Calendar } from "react-modern-calendar-datepicker";
+import DatePicker from '@/components/inputs/DatePicker';
+// import "react-modern-calendar-datepicker/lib/DatePicker.css";
+// import { Calendar } from "react-modern-calendar-datepicker";
 import { useState } from 'react';
 
 export default function createUser() {
@@ -30,20 +31,23 @@ export default function createUser() {
                 <Container fluid className={styles.inputsContainer}>
                     <Row>
                         <Col md={{ span: 3, offset: 3 }}>
-                            <Cinput icon={<BsImageFill />} placeholder={"Username"} />
-                            <Cinput icon={<BsImageFill />} placeholder={"Role"} />
                             <Cinput icon={<BsImageFill />} placeholder={"Fullname"} />
+
+                            <Cinput icon={<BsImageFill />} placeholder={"Role"} />
                         </Col>
                         <Col md={{ span: 3 }}>
-                            <Cinput icon={<BsImageFill />} placeholder={"Birthday"} />
+                            <Cinput icon={<BsImageFill />} placeholder={"Username"} />
+                            <DatePicker icon={<BsImageFill />} />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={{ span: 6, offset: 3 }}>
                             <Cinput icon={<BsImageFill />} placeholder={"National_code"} />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={{ span: 6, offset: 3 }}>
                             <Cinput icon={<BsImageFill />} placeholder={"sheba_Number"} />
-                            {/* <Calendar
-                                value={selectedDay}
-                                onChange={setSelectedDay}
-                                shouldHighlightWeekends
-                                locale="fa"
-                            /> */}
                         </Col>
                     </Row>
                     <Row>
