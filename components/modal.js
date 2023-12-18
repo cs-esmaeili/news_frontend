@@ -1,4 +1,5 @@
 import { Button, Modal } from 'react-bootstrap';
+import styles from '@/styles/modal.module.scss';
 
 
 function CModal({ data, updater }) {
@@ -7,13 +8,12 @@ function CModal({ data, updater }) {
     return (
         <Modal
             size="sm"
-            // size="lg"
+            className={`${styles.container} modal`}
             dialogClassName="modalChangeSize"
             aria-labelledby="contained-modal-title-vcenter"
             centered
             show={status}
             onHide={() => updater(false)}
-            className="modal"
         >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">

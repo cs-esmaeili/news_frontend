@@ -1,8 +1,7 @@
 @import 'variables.scss';
 
 .container {
-  position: relative;
-  display: flex;
+  overflow-y: auto;
   flex-direction: column;
   justify-content: center;
   color: white;
@@ -60,13 +59,21 @@
     background-color: $accent_color ;
   }
 
+  &.margin {
+    margin: 0px;
+  }
+
   &.deleteItem {
     background-color: rgb(112, 46, 46);
   }
 
   &.replaceItem {
-    // background-color: green;
     border-style: dashed;
     border-color: green;
   }
+}
+
+.rolesContainer {
+  background-color: $sidebar_color;
+  min-width: 50vw;
 }

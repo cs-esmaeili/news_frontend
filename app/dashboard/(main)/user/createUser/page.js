@@ -5,13 +5,34 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { BsImageFill } from 'react-icons/bs';
 import Cinput from '@/components/Cinput';
 import DatePicker from '@/components/inputs/DatePicker';
-// import "react-modern-calendar-datepicker/lib/DatePicker.css";
-// import { Calendar } from "react-modern-calendar-datepicker";
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import Roles from '@/components/role/Roles';
+import { cModalContext } from '@/app/contexts/cModal';
 
 export default function createUser() {
+    const [currentRole, setCurrentRole] = useState(null);
+    const [allPermissions, setAllPermissions] = useState(null);
+    const [updateList, setUpdateList] = useState(false);
 
     const [selectedDay, setSelectedDay] = useState(null);
+    const { cModalStatus, cModalUpdater } = useContext(cModalContext);
+
+    const openRolePicker = () => {
+        cModalUpdater({
+            status: true,
+            title: null,
+            fullSize: false,
+            body:
+                <Container className={styles.rolesContainer}>
+                    <Roles
+                        setCurrentRole={(role) => { setCurrentRole(role); }}
+                        setAllpermissions={(permissions) => { }}
+                        updateList={updateList}
+                    />
+                </Container>
+        });
+    }
+
     return (
         <Container fluid className={styles.container}>
             <Row>
@@ -32,8 +53,9 @@ export default function createUser() {
                     <Row>
                         <Col md={{ span: 3, offset: 3 }}>
                             <Cinput icon={<BsImageFill />} placeholder={"Fullname"} />
-
-                            <Cinput icon={<BsImageFill />} placeholder={"Role"} />
+                            <button className={`${styles.roleButton} ${styles.active} ${styles.margin}`} onClick={() => {
+                                openRolePicker();
+                            }}> Role  </button>
                         </Col>
                         <Col md={{ span: 3 }}>
                             <Cinput icon={<BsImageFill />} placeholder={"Username"} />
