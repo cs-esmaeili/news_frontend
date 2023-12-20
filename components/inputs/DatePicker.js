@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styles from '@/styles/datepicker.module.scss';
 
-function DatePicker({ icon, length = 3 }) {
+function DatePicker({ icon, onChange, reset, length = 3 }) {
 
-    const inputRefs = useRef(Array.from({ length }, () => React.createRef()));
+    let inputRefs = useRef(Array.from({ length }, () => React.createRef()));
 
     const focusNextInput = (index) => {
         const nextIndex = index + 1;
@@ -19,6 +19,21 @@ function DatePicker({ icon, length = 3 }) {
         }
     };
 
+    const onChangedDates = () => {
+        let time = "";
+        inputRefs.current.forEach(element => {
+            time += element.current.value + "-";
+        });
+        time = time.substring(0, time.length - 1);
+        onChange(time);
+    }
+
+    useEffect(() => {
+        inputRefs.current.forEach(element => {
+            element.current.value = "";
+        });
+    }, [reset]);
+
 
     return (
         <div className={styles.container}>
@@ -29,6 +44,8 @@ function DatePicker({ icon, length = 3 }) {
                 ref={inputRefs.current[0]}
                 className={styles.input}
                 placeholder='1379'
+                onChange={onChangedDates}
+                value={inputRefs.current[0].value}
                 onKeyDown={(e) => {
                     if (e.key === 'Backspace' && e.currentTarget.value === '') {
                         focusNextInput(0);
@@ -42,7 +59,9 @@ function DatePicker({ icon, length = 3 }) {
             <input
                 ref={inputRefs.current[1]}
                 className={styles.input}
+                value={inputRefs.current[0].value}
                 placeholder='01'
+                onChange={onChangedDates}
                 onKeyDown={(e) => {
                     if (e.key === 'Backspace' && e.currentTarget.value === '') {
                         focusNextInput(1);
@@ -55,8 +74,10 @@ function DatePicker({ icon, length = 3 }) {
             <span> / </span>
             <input
                 ref={inputRefs.current[2]}
+                value={inputRefs.current[0].value}
                 className={styles.input}
                 placeholder='11'
+                onChange={onChangedDates}
                 onKeyDown={(e) => {
                     if (e.key === 'Backspace' && e.currentTarget.value === '') {
                         focusNextInput(2);
