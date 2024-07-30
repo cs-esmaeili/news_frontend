@@ -9,14 +9,14 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'back.thewiscosintimes.com',
+        hostname: 'thewiscosintimes.com',
       },
       {
         protocol: 'http',
-        hostname: 'back.thewiscosintimes.com',
+        hostname: 'thewiscosintimes.com',
       }
     ],
   },
 };
 
-export default nextConfig;
+module.exports = nextConfig;

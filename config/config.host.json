@@ -1,6 +1,6 @@
 {
     "app_name": "Thewiscosintimes",
     "logo_url": "assets/logo.jpg",
-    "api": "http://localhost:3000/",
+    "api": "https://back.thewiscosintimes.com/",
     "site_description" : "world news"
 }

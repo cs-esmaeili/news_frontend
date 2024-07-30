@@ -4,34 +4,34 @@ import { MdSpaceDashboard } from "react-icons/md";
 import { BiSolidCategoryAlt } from "react-icons/bi";
 import { MdPostAdd } from "react-icons/md";
 import { HiOutlineClipboardDocumentList } from "react-icons/hi2";
-import { useSelector } from 'react-redux';
 import { BsShieldLockFill } from "react-icons/bs";
 import { FaUserPlus } from "react-icons/fa6";
-import { useRouter } from 'next/navigation';
+import translations from "@/translations.json";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { getCookie } from 'cookies-next';
 
 const Sidebar = ({ open, setOpen }) => {
 
   const pathname = usePathname();
-  const { replace } = useRouter();
-  const permissions = useSelector((state) => state.permissions.value);
+  const permissions = JSON.parse(localStorage.getItem('userPermission'));
+  const text = translations["en"].sideBar;
 
   const allItems = [
-    { name: "Dashboard", url: "/dashboard", icon: <MdSpaceDashboard className="text-2xl" /> },
-    { name: "File Manager", url: "/dashboard/filemanager", icon: <PiFolderFill className="text-2xl" /> },
-    { name: "Category", url: "/dashboard/category", icon: <BiSolidCategoryAlt className="text-2xl" /> },
-    { name: "Create Post", url: "/dashboard/post/createPost", icon: <MdPostAdd className="text-2xl" /> },
-    { name: "Post List", url: "/dashboard/post/postList", icon: <HiOutlineClipboardDocumentList className="text-2xl" /> },
-    { name: "Permissions", url: "/dashboard/role", icon: <BsShieldLockFill className="text-2xl" /> },
-    { name: "Users", url: "/dashboard/user", icon: <FaUserPlus className="text-2xl" /> },
+    { name: text["/dashboard"], url: "/dashboard", icon: <MdSpaceDashboard className="text-2xl" /> },
+    { name: text["/dashboard/filemanager"], url: "/dashboard/filemanager", icon: <PiFolderFill className="text-2xl" /> },
+    { name: text["/dashboard/category"], url: "/dashboard/category", icon: <BiSolidCategoryAlt className="text-2xl" /> },
+    { name: text["/dashboard/post/createPost"], url: "/dashboard/post/createPost", icon: <MdPostAdd className="text-2xl" /> },
+    { name: text["/dashboard/post/postList"], url: "/dashboard/post/postList", icon: <HiOutlineClipboardDocumentList className="text-2xl" /> },
+    { name: text["/dashboard/role"], url: "/dashboard/role", icon: <BsShieldLockFill className="text-2xl" /> },
+    { name: text["/dashboard/user"], url: "/dashboard/user", icon: <FaUserPlus className="text-2xl" /> },
   ];
 
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    let tempItems = [...items];
+    let tempItems = [];
     allItems.forEach(item => {
       permissions.forEach(permission => {
         if (item.url == permission.route) {
@@ -40,7 +40,6 @@ const Sidebar = ({ open, setOpen }) => {
       });
     });
     setItems(tempItems);
-
   }, []);
 
   return (

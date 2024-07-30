@@ -42,11 +42,6 @@ export default function FileManager({ fileType = null, fileSelectListener }) {
                         {path == "" ? "Home" : "Home > " + path.join(' > ')}
                     </span>
                 </div>
-                <div className='flex grow basis-1 mb-2'>
-                    <Input placeholder={"search..."}
-                        icon={<PiKeyReturnBold className='text-xl' />}
-                        color={"bg-primary"} />
-                </div>
             </div>
             <Files
                 selectedFile={selectedFile}

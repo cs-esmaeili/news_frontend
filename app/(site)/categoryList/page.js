@@ -37,7 +37,7 @@ const categoryList = async () => {
 
                 <div className='flex flex-wrap'>
 
-                    {categorys.map((item, index) => {
+                    {categorys && categorys != null && categorys.map((item, index) => {
                         return (
                             <div className='relative p-1 w-full sm:w-1/2 md:w-1/4 h-[290px]'>
                                 <ImageCard image={item.image.url} blurHash={item.image.blurHash} text={item.name} url={`/category/${item.name}/1`} roundMode />
