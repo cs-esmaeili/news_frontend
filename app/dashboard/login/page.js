@@ -9,14 +9,16 @@ import StepTwo from './StepTwo';
 import { FaArrowLeft } from "react-icons/fa6";
 import config from "@/config.json";
 import translations from "@/translations.json";
-import { hasCookie } from 'cookies-next';
+import { getCookie } from 'cookies-next';
+import { checkAllCookies } from '@/hooks/checks';
+import { setCookie, deleteCookie } from 'cookies-next';
 
 const LogIn = () => {
 
     const [step, setStep] = useState(false);
     const [loading, setLoading] = useState(false);
     const [timer, setTimer] = useState(0);
-    const [userName, setUserName] = useState("09137378601");
+    const [userName, setUserName] = useState("");
     const text = translations['en'].logIn;
 
     const { push } = useRouter();
@@ -27,12 +29,17 @@ const LogIn = () => {
     }
 
     useEffect(() => {
-        if (hasCookie("token")) {
+        if (checkAllCookies(
+            getCookie("token"),
+            getCookie("user"),
+            getCookie("userName"),
+            getCookie("role"),
+            JSON.parse(localStorage.getItem('userPermission')),
+        )) {
             goToDashboard();
         }
     }, []);
 
-    console.log(config.api + config.logo_url);
     return (
         <div className='bg-primary flex h-screen w-full max-w-full overflow-hidden justify-center items-center'>
             <Toaster position="top-center" />

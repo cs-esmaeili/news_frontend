@@ -31,15 +31,17 @@ const Sidebar = ({ open, setOpen }) => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    let tempItems = [];
-    allItems.forEach(item => {
-      permissions.forEach(permission => {
-        if (item.url == permission.route) {
-          tempItems.push(item);
-        }
+    if (permissions != null && permissions.length > 0) {
+      let tempItems = [];
+      allItems.forEach(item => {
+        permissions.forEach(permission => {
+          if (item.url == permission.route) {
+            tempItems.push(item);
+          }
+        });
       });
-    });
-    setItems(tempItems);
+      setItems(tempItems);
+    }
   }, []);
 
   return (

@@ -6,18 +6,12 @@ import Header from '@/components/dashboard/Header';
 import { useState, useEffect } from "react";
 import { Toaster } from 'react-hot-toast';
 import '@/styles/globals.css';
-import useSecurityCheck from '@/hooks/useSecurityCheck';
-import { useRouter } from 'next/navigation';
-import translations from "@/translations.json";
+import Check from '@/components/dashboard/Check';
 
 export default function Layout({ children }) {
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-  const { push } = useRouter();
-  const { layoutMain } = translations['en'];
-
-  useSecurityCheck(push, setLoading);
 
   useEffect(() => {
     const handleResize = () => {
@@ -34,12 +28,9 @@ export default function Layout({ children }) {
 
   return (
     <div className='bg-primary flex h-screen w-full max-w-full overflow-hidden'>
-      <Toaster position="top-center" />
+      {/* <Toaster position="top-center" /> */}
       {loading ?
-        <div className="relative flex flex-col gap-5 justify-center items-center h-full w-full">
-          <div className="w-32 h-32 rounded-full border-8 border-solid border-accent border-t-transparent animate-spin"></div>
-          <span>{layoutMain.securityCheck}</span>
-        </div>
+        <Check setLoading={setLoading} />
         :
         <ModalProvider>
           <div className={open ? "opacity-50 bg-black w-100% h-screen z-20 top-0 left-0 right-0 bottom-0 fixed cursor-pointer" : "hidden"}
@@ -54,5 +45,5 @@ export default function Layout({ children }) {
         </ModalProvider>
       }
     </div>
-  )
+  );
 }
